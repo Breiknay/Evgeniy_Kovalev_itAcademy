@@ -1,19 +1,14 @@
 function getUserCardAlert() {
+
     let name = prompt('Укажите пожалуйста свое имя');
-    name = checkString(name) === true ? name : "";
+    isEmpty(name)
 
     let lastName = prompt('Укажите пожалуйста свою фамилию');
-    lastName = checkString(lastName) === true ? lastName : "";
+    isEmpty(lastName)
+
     let surName = prompt('Укажите пожалуйста свое отчество');
-    surName = checkString(surName) === true ? surName : "";
-    switch ((name && lastName && surName) !== "" && (name && lastName && surName) !== null) {
-        case true:
-            break;
-        case false:
-            let isTryAgain = confirm("Вы ввели некорректные данные, попробовать еще раз?");
-            if (isTryAgain) return getUserCardAlert()
-            else return
-    }
+    isEmpty(surName)
+
     let userAge = prompt('Укажите пожалуйста возраст в годах')
     switch (isFinite(Number(userAge)) && userAge !== null) {
         case true:
@@ -47,6 +42,18 @@ function getUserCardAlert() {
 
 function checkString(str) {
     return isNaN(parseFloat(str));
+}
+
+function isEmpty(str) {
+    str = checkString(str) === true ? str : "";
+    switch (str !== "" && str !== null) {
+        case true:
+            break;
+        case false:
+            let isTryAgain = confirm("Вы ввели некорректные данные, попробовать еще раз?");
+            if (isTryAgain) return getUserCardAlert()
+            else return
+    }
 }
 
 getUserCardAlert()
