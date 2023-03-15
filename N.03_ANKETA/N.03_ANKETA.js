@@ -39,7 +39,7 @@ function getUserCardAlert() {
     for (; ;) {
         userAge = prompt('Укажите пожалуйста возраст в годах');
 
-        if (isFinite(Number(userAge)) && userAge !== null) {
+        if ((userAge !== "") && (isFinite(Number(userAge)) && userAge !== null)) {
             break;
         }
         let isTryAgain = confirm("Вы ввели некорректные данные, попробовать еще раз?");
