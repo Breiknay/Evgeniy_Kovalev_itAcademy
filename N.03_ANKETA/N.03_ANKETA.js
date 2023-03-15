@@ -1,5 +1,5 @@
 function getUserCardAlert() {
-
+    let name;
     for (; ;) {
         name = prompt('Укажите пожалуйста свое имя');
 
