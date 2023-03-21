@@ -17,12 +17,13 @@ function treeSum(arr) {
     }
     return sum;
 }
-// function treeSum(array){
-//   let sum= 0;
-//  array = array.flat(Infinity)
-//     for (let i = 0; i < array.length; i++) {
-//       sum+= array[i]
-//     }
-//   return sum
-// }
+ function treeSum2(array){
+  let sum= 0;
+  array = array.flat(Infinity)
+     for (let i = 0; i < array.length; i++) {
+      sum+= array[i]
+    }
+   return sum
+ }
 
+console.log(treeSum2(array))
