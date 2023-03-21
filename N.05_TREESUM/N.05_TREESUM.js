@@ -6,15 +6,6 @@ const array = [5, 7,
 
 console.log(treeSum(array))
 
-// function treeSum(array){
-//   let sum= 0;
-//  array = array.flat(Infinity)
-//     for (let i = 0; i < array.length; i++) {
-//       sum+= array[i]
-//     }
-//   return sum
-// }
-
 function treeSum(arr) {
     let sum = 0;
     for (let i = 0; i < arr.length; i++) {
@@ -26,3 +17,12 @@ function treeSum(arr) {
     }
     return sum;
 }
+// function treeSum(array){
+//   let sum= 0;
+//  array = array.flat(Infinity)
+//     for (let i = 0; i < array.length; i++) {
+//       sum+= array[i]
+//     }
+//   return sum
+// }
+
