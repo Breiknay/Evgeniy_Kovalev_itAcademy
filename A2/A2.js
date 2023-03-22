@@ -12,6 +12,6 @@ function removeSpaces(str) {
         endIndex--;
     }
 
-    return userInput.substring(startIndex, endIndex + 1);
+    return str.substring(startIndex, endIndex + 1);
 
 }
