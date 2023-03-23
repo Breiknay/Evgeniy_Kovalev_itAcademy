@@ -1,5 +1,5 @@
 let userInput = prompt("Введите строку:");
-let result = removeSpaces(userInput);
+let result = `✪${removeSpaces(userInput)}✪`;
 alert(result)
 
 function removeSpaces(str) {
@@ -18,6 +18,6 @@ function removeSpaces(str) {
     if (startIndex === 0 && endIndex === str.length - 1) {
         console.log("No spaces found in the string.");
         return str;
-    } else return `✪${str.substring(startIndex, endIndex + 1)}✪`;
+    } else return str.substring(startIndex, endIndex + 1)
 
 }
