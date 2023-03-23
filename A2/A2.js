@@ -10,7 +10,7 @@ function removeSpaces(str) {
     }
     if (startIndex === str.length) {
         console.log("Only spaces in the string.");
-        return;
+        return ""
     }
     while (str[endIndex] === " ") {
         endIndex--;
