@@ -1,9 +1,22 @@
 let str = prompt('Введите строку')
 
-function isPalindrom(str) {
-    let newStr = str.replace(/[.,\sёЁЪъЬь]/g, "").toLowerCase();
-    return newStr === newStr.split("").reverse().join("");
+function isPalindrome(str) {
+    str = str.toLowerCase();
+    str = str.replace(/[.,\s]/g, "");
+    str = str.replace(/ё/g, 'е');
+
+    for (let i = 1; i < Math.floor(str.length / 2); i++) {
+
+        if (str[i] !== str[str.length - 1 - i]) {
+            return false;
+        }
+
+    }
+    return true;
 }
 
-let result = isPalindrom(str)
-alert(result ? "это палиндром" : "это не палиндром")
+let result = isPalindrome(str)
+alert(result ? "Это палиндром" : "Это не палиндром")
+
+
+
