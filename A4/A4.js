@@ -1,17 +1,25 @@
 let str = prompt('Введите строку')
 
 function isPalindrome(str) {
-    str = str.toLowerCase();
-    str = str.replace(/[.,\s]/g, "");
-    str = str.replace(/ё/g, 'е');
-    if (str.length <= 1) {
-        return true;
+
+    function checkPalindrome(str) {
+        if (str.length <= 1) {
+            return true;
+        }
+        if (str[0] !== str[str.length - 1]) {
+            return false;
+        }
+        return checkPalindrome(str.slice(1, str.length - 1));
     }
-    if (str[0] === str[str.length - 1]) {
-        return isPalindrome(str.slice(1, str.length - 1));
-    } else {
-        return false;
-    }
+
+    const cleanedStr = removeIgnoredChars(str);
+
+    return checkPalindrome(cleanedStr);
+}
+
+function removeIgnoredChars(str) {
+    const unnecessaryText = /[\s,.?!:;'"()—`´ёЁьЬ]/g;
+    return str.toLowerCase().replace(unnecessaryText, '');
 }
 
 let result = isPalindrome(str)
