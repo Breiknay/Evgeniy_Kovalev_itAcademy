@@ -4,24 +4,18 @@ function randomDiap(n, m) {
 
 function mood(colorsCount) {
     const colors = ['', 'красный', 'оранжевый', 'жёлтый', 'зелёный', 'голубой', 'синий', 'фиолетовый'];
-    const usedColors = {};
+    const usedColors = [];
 
     console.log('цветов: ' + colorsCount);
-    for (let i = 1; i <= colorsCount; i++) {
-        const colorName = getRandomColor(colors, usedColors);
-        usedColors[colorName] = true;
-        console.log(colorName);
+    while (usedColors.length < colorsCount) {
+        const n = randomDiap(1, 7);
+        const colorName = colors[n];
+        if (!usedColors.includes(colorName)) {
+            usedColors.push(colorName);
+        }
     }
-}
 
-function getRandomColor(colors, usedColors) {
-    let n = randomDiap(1, 7);
-    let colorName = colors[n];
-    while (colorName in usedColors) {
-        n = randomDiap(1, 7);
-        colorName = colors[n];
-    }
-    return colorName;
+    console.log(usedColors.join("\n"))
 }
 
 mood(3);
