@@ -18,8 +18,10 @@ function isPalindrome(str) {
 }
 
 function removeIgnoredChars(str) {
-    const unnecessaryText = /[\s,.?!:;'"()—`´ёЁьЬ]/g;
-    return str.toLowerCase().replace(unnecessaryText, '');
+    str = str.toLowerCase()
+    const unnecessaryText = /[\s,.?!:;'"()—`´ьЬ]/g;
+    str = str.replace(/ё/g, 'е');
+    return str.replace(unnecessaryText, '');
 }
 
 let result = isPalindrome(str)
