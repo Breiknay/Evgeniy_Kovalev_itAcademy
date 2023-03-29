@@ -1,38 +1,31 @@
 function buildWrapper(tagName) {
     return function (text, attrs) {
         var html = "<" + tagName;
+
         for (var attr in attrs) {
-            html += " " + attr + "='" + attrs[attr].replace(/['"&<>]/g, function (match) {
-                switch (match) {
-                    case "'":
-                        return "&apos;";
-                    case "\"":
-                        return "&quot;";
-                    case "&":
-                        return "&amp;";
-                    case "<":
-                        return "&lt;";
-                    case ">":
-                        return "&gt;";
-                }
-            }) + "'";
+            html += " " + attr + "='" + htmlEscape(attrs[attr]) + "'";
         }
-        html += ">" + text.replace(/['"&<>]/g, function (match) {
-            switch (match) {
-                case "'":
-                    return "&apos;";
-                case "\"":
-                    return "&quot;";
-                case "&":
-                    return "&amp;";
-                case "<":
-                    return "&lt;";
-                case ">":
-                    return "&gt;";
-            }
-        }) + "</" + tagName + ">";
+
+        html += ">" + htmlEscape(text) + "</" + tagName + ">";
         return html;
     }
+}
+
+function htmlEscape(text) {
+    return text.replace(/['"&<>]/g, function (match) {
+        switch (match) {
+            case "'":
+                return "&apos;";
+            case "\"":
+                return "&quot;";
+            case "&":
+                return "&amp;";
+            case "<":
+                return "&lt;";
+            case ">":
+                return "&gt;";
+        }
+    });
 }
 
 var wrapP = buildWrapper("P");
