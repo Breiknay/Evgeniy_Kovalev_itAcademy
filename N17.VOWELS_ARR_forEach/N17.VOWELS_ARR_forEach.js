@@ -3,7 +3,7 @@ function countingVowels(str) {
     let count = 0;
 
     str.toLowerCase().split('').forEach((item) => {
-        if (vowelsToCheck.split('').includes(item)) {
+        if (vowelsToCheck.includes(item)) {
             count++
         }
     })

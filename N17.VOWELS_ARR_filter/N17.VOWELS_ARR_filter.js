@@ -1,8 +1,7 @@
 function countingVowels(str) {
     const vowelsToCheck = 'аеёиоуыэюя';
-    let arrVowels = vowelsToCheck.split('')
     let filterArray = str.toLowerCase().split('').filter((item) => {
-        return arrVowels.includes(item)
+        return vowelsToCheck.includes(item)
     });
     return filterArray.length;
 }
