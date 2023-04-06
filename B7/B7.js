@@ -1,6 +1,5 @@
 function formatNumber(num, format) {
     const [beforeDecimal, afterDecimal] = format.split(".");
-console.log(afterDecimal)
     const numStr = num.toFixed(afterDecimal ? afterDecimal.length : 0);
     const [numInt, numDec] = numStr.split(".");
     let formattedNum = "";
