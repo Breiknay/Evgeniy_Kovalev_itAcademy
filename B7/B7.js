@@ -17,5 +17,5 @@ console.log(afterDecimal)
     }
     return formattedNum;
 }
-console.log(formatNumber(2.3, "# ### ###.##")); // выдаёт "2.30"
-console.log(formatNumber(12345.368, "# ### ###.##")); // выдаёт "12 345.37"
+console.log(formatNumber(2.3, "# ### ###.##"));
+console.log(formatNumber(12345.368, "# ### ###.##"));
