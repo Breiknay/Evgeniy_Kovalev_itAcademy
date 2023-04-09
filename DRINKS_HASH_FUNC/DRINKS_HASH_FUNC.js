@@ -6,7 +6,6 @@ function HashStorageFunc() {
         return this;
     }
     this.getValue = function (key) {
-        console.log(myObject[key])
         return myObject[key];
     }
     this.deleteValue = function (key) {
@@ -17,7 +16,6 @@ function HashStorageFunc() {
         return false;
     };
     this.getKeys = function () {
-        console.log(Object.keys(myObject))
         return Object.keys(myObject);
     }
 }
@@ -45,16 +43,16 @@ function makeDrink() {
 function getDrink() {
     let nameDrink = prompt("Введите название напитка")
     let info = drinkStorage.getValue(nameDrink)
-    if (!info) alert("Такого напитка не найдено")
-    alert(`напиток ${nameDrink}
+    alert(info ? (`напиток: ${nameDrink}
     алкогольный: ${info['isAlcoholic'] ? "Да" : "Нет"}
-    рецепт приготовления: ${info['info']}`)
+    рецепт приготовления: ${info['info']}`) : "Такого напитка не найдено")
 }
 
 function deleteDrink() {
     let nameDrink = prompt("Введите название напитка")
     let isDelete = drinkStorage.deleteValue(nameDrink)
-    alert(`${isDelete ? "Удалено успешно" : "Такого напитка не найдено"}`)
+    alert(isDelete ? "Удалено успешно" : "Такого напитка не найдено")
+
 }
 
 function getAllDrink() {
