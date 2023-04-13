@@ -1,29 +1,27 @@
 function deepComp(value1, value2) {
-    if (typeof value1 !== typeof value2) {
-        return false;
+    if (typeof value1 !== 'object' || value1 === null || typeof value2 !== 'object' || value2 === null) {
+        return value1 === value2;
     }
+
     if (Array.isArray(value1) !== Array.isArray(value2)) {
         return false;
     }
-    if (typeof value1 === 'object' && value1 !== null && value2 !== null) {
-        const keys1 = Object.keys(value1).sort();
-        const keys2 = Object.keys(value2).sort();
 
-        if (keys1.length !== keys2.length || !keys1.every((key, i) => key === keys2[i])) {
+    const keys1 = Object.keys(value1).sort();
+    const keys2 = Object.keys(value2).sort();
+
+    if (keys1.length !== keys2.length || !keys1.every((key, i) => key === keys2[i])) {
+        return false;
+    }
+
+    for (let i = 0; i < keys1.length; i++) {
+        const key = keys1[i];
+        if (!deepComp(value1[key], value2[key])) {
             return false;
         }
-        for (let i = 0; i < keys1.length; i++) {
-            const key = keys1[i];
-            if (!deepComp(value1[key], value2[key])) {
-                return false;
-            }
-        }
-        return true;
-    } else if (typeof value1 === 'number' && isNaN(value1) && isNaN(value2)) {
-        return true;
-    } else {
-        return value1 === value2;
     }
+
+    return true;
 }
 
 describe("deepComp", function () {
