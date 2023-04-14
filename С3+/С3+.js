@@ -1,32 +1,45 @@
-function deepComp(value1, value2) {
-    if (typeof value1 !== 'object' || value1 === null || typeof value2 !== 'object' || value2 === null) {
-        return value1 === value2;
+function deepComp(a, b) {
+    if (a === b) {
+        return true;
     }
-
-    if (Array.isArray(value1) && Array.isArray(value2)) {
-        if (value1.length !== value2.length) {
+    if (typeof a !== typeof b) {
+        return false;
+    }
+    if (a == null || b == null) {
+        return false;
+    }
+    if (typeof a !== 'object') {
+        if (Number.isNaN(a) && Number.isNaN(b)) {
+            return true;
+        }
+        return a === b;
+    }
+    if (Array.isArray(a)) {
+        if (!Array.isArray(b) || a.length !== b.length) {
             return false;
         }
-        for (let i = 0; i < value1.length; i++) {
-            if (!deepComp(value1[i], value2[i])) {
+        for (let i = 0; i < a.length; i++) {
+            if (!deepComp(a[i], b[i])) {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        let aKeys = Object.keys(a);
+        let bKeys = Object.keys(b);
+        if (aKeys.length !== bKeys.length) {
+            return false;
+        }
+        for (let i = 0; i < aKeys.length; i++) {
+            let prop = aKeys[i];
+            if (!(b.hasOwnProperty(prop) && deepComp(a[prop], b[prop]))) {
                 return false;
             }
         }
         return true;
     }
-
-    const keys1 = Object.keys(value1);
-    const keys2 = Object.keys(value2);
-    if (keys1.length !== keys2.length) {
-        return false;
-    }
-    for (const key of keys1) {
-        if (!deepComp(value1[key], value2[key])) {
-            return false;
-        }
-    }
-    return true;
 }
+
 
 describe("deepComp", function () {
     var H1 = {a: 5, b: {b1: 6, b2: 7}};
