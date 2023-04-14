@@ -3,24 +3,28 @@ function deepComp(value1, value2) {
         return value1 === value2;
     }
 
-    if (Array.isArray(value1) !== Array.isArray(value2)) {
-        return false;
+    if (Array.isArray(value1) && Array.isArray(value2)) {
+        if (value1.length !== value2.length) {
+            return false;
+        }
+        for (let i = 0; i < value1.length; i++) {
+            if (!deepComp(value1[i], value2[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    const keys1 = Object.keys(value1).sort();
-    const keys2 = Object.keys(value2).sort();
-
-    if (keys1.length !== keys2.length || !keys1.every((key, i) => key === keys2[i])) {
+    const keys1 = Object.keys(value1);
+    const keys2 = Object.keys(value2);
+    if (keys1.length !== keys2.length) {
         return false;
     }
-
-    for (let i = 0; i < keys1.length; i++) {
-        const key = keys1[i];
+    for (const key of keys1) {
         if (!deepComp(value1[key], value2[key])) {
             return false;
         }
     }
-
     return true;
 }
 
