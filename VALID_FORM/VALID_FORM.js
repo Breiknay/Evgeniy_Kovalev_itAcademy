@@ -1,5 +1,6 @@
 function printError(elemId, hintMsg) {
     document.getElementById(elemId).innerHTML = hintMsg;
+    document.getElementById(elemId).style.cssText = 'color: red;display: inline-block; text-align: right;';
 }
 
 // Определяем функции для проверки формы
