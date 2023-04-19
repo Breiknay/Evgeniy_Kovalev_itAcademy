@@ -6,96 +6,51 @@
     <title>Title</title>
 </head>
 <body>
-<form name="contactForm" onsubmit="return validateForm()" action="confirmation.php" method="post">
-    <h2>Форма заявки</h2>
-    <div class="row">
-        <label>Имя</label>
-        <input type="text" name="name">
-        <div class="error" id="nameErr"></div>
-    </div>
-    <div class="row">
-        <label>Email</label>
-        <input type="text" name="email">
-        <div class="error" id="emailErr"></div>
-    </div>
-    <div class="row">
-        <label>Номер телефона</label>
-        <input type="text" name="mobile" maxlength="10">
-        <div class="error" id="mobileErr"></div>
-    </div>
-    <div class="row">
-        <label>Страна</label>
-        <select name="country">
-            <option>Select</option>
-            <option>Australia</option>
-            <option>India</option>
-            <option>United States</option>
-            <option>United Kingdom</option>
-        </select>
-        <div class="error" id="countryErr"></div>
-    </div>
-    <div class="row">
-        <label>Пол</label>
-        <div class="form-inline">
-            <label><input type="radio" name="gender" value="male">Мужской</label>
-            <label><input type="radio" name="gender" value="female">Женский</label>
-        </div>
-        <div class="error" id="genderErr"></div>
-    </div>
-    <div class="row">
-        <label>Хобби <i>(не обязательно)</i></label>
-        <div class="form-inline">
-            <label><input type="checkbox" name="hobbies[]" value="sports">Спорт</label>
-            <label><input type="checkbox" name="hobbies[]" value="movies">Кино</label>
-            <label><input type="checkbox" name="hobbies[]" value="music">Музыка</label>
-        </div>
-    </div>
-    <div class="row">
-        <input type="submit" value="Submit">
-    </div>
+<form method="post" action="https://fe.it-academy.by/TestForm.php" name="form">
+    <label>Разработчики:</label><input type="longtext" name="workers" maxlength="25">
+
+    <div class="error" id="workersErr"></div>
+    <div></div>
+    <label>Название сайта:</label><input type="longtext" name="sitename">
+    <span class="error-message"></span>
+    <div class="error" id="sitenameErr"></div>
+    <div></div>
+    <label>URL сайта:</label><input type="longtext" name="siteUrlForYou">
+    <div class="error" id="siteurlErr"></div>
+    <div></div>
+    <label>Дата запуска сайта:</label><input type="date" name="dateNowTime">
+    <div class="error" id="dateErr"></div>
+    <div></div>
+    <label>Посетителей в сутки:</label><input type="number" name="visitors">
+    <div class="error" id="visitorsErr"></div>
+    <div></div>
+    <label>E-mail для связи:</label>
+    <input type="shorttext" name="email">
+    <div class="error" id="emailErr"></div>
+    <div></div>
+    <label>Рубрика каталога:</label>
+    <select>
+        <option value="1">здоровье</option>
+        <option value="2">домашний уют</option>
+        <option value="3">бытовая техника</option>
+    </select>
+    <div></div>
+    <label>Размещение:</label>
+    <label><input type="radio" name="payment" value="1">бесплатное</label>
+    <label><input type="radio" name="payment" value="2">платное</label>
+    <label><input type="radio" name="payment" value="3">VIP</label>
+    <div></div>
+    <label>Разрешить отзывы:</label><input onchange="toggleDisabled(this.checked)" type="checkbox" name="votes">
+    <div class="error" id="votesErr"></div>
+    <div></div>
+    <label>Описание сайта:</label>
+    <textarea disabled name="description" style="width: 400px; height: 50px;"></textarea>
+    <div class="error" id="descriptionErr"></div>
+    <div></div>
+    <caption>
+    </caption>
+    <input type="submit" value="Опубликовать">
 </form>
 <script src="VALID_FORM.js"></script>
 </body>
 </html>
-<!--<form method="post" action="https://fe.it-academy.by/TestForm.php" name="form">-->
-<!--    <label>Разработчики:</label><input type="longtext" id="workers">-->
-<!--    <span class="error-message"></span>-->
-<!--    <br>-->
-<!--    <label>Название сайта:</label><input type="longtext" id="sitename">-->
-<!--    <span class="error-message"></span>-->
-<!--    <br>-->
-<!--    <label>URL сайта:</label><input type="longtext" id="siteurl">-->
-<!--    <div class="error"></div>-->
-<!--    <br>-->
-<!--    <label>Дата запуска сайта:</label><input type="date" id="date">-->
-<!--    <div class="error"></div>-->
-<!--    <br>-->
-<!--    <label>Посетителей в сутки:</label><input type="number" id="visitors">-->
-<!--    <div class="error"></div>-->
-<!--    <br>-->
-<!--    <label>E-mail для связи:</label>-->
-<!--    <input type="shorttext" id="email">-->
-<!--    <div class="error"></div>-->
-<!--    <br>-->
-<!--    <label>Рубрика каталога:</label>-->
-<!--    <select>-->
-<!--        <option value="1">здоровье</option>-->
-<!--        <option value="2">домашний уют</option>-->
-<!--        <option value="3">бытовая техника</option></select>-->
-<!--    <br>-->
-<!--    <label>Размещение:</label>-->
-<!--    <label><input type="radio" name="payment" value="1">бесплатное</label>-->
-<!--    <label><input type="radio" name="payment" value="2">платное</label>-->
-<!--    <label><input type="radio" name="payment" value="3">VIP</label>-->
-<!--    <br>-->
-<!--    <label>Разрешить отзывы:</label><input type="checkbox" id="votes">-->
-<!--    <div class="error"></div>-->
-<!--    <br>-->
-<!--    <label>Описание сайта:</label>-->
-<!--    <textarea id="description" style="width: 400px; height: 50px;"></textarea>-->
-<!--    <div class="error"></div>-->
-<!--    <br>-->
-<!--    <caption>-->
-<!--    </caption>-->
-<!--    <input type="submit" value="Опубликовать">-->
-<!--</form>-->
