@@ -29,22 +29,25 @@
     <div class="error" id="emailErr"></div>
     <div></div>
     <label>Рубрика каталога:</label>
-    <select>
-        <option value="1">здоровье</option>
-        <option value="2">домашний уют</option>
-        <option value="3">бытовая техника</option>
+    <select name="typeSite">
+        <option>Select</option>
+        <option>здоровье</option>
+        <option>домашний уют</option>
+        <option>бытовая техника</option>
     </select>
+    <div class="error" id="typeSiteErr"></div>
     <div></div>
     <label>Размещение:</label>
     <label><input type="radio" name="payment" value="1">бесплатное</label>
     <label><input type="radio" name="payment" value="2">платное</label>
     <label><input type="radio" name="payment" value="3">VIP</label>
+    <div class="error" id="paymentErr"></div>
     <div></div>
-    <label>Разрешить отзывы:</label><input onchange="toggleDisabled(this.checked)" type="checkbox" name="votes">
+    <label>Разрешить отзывы:</label><input type="checkbox" name="votes">
     <div class="error" id="votesErr"></div>
     <div></div>
     <label>Описание сайта:</label>
-    <textarea disabled name="description" style="width: 400px; height: 50px;"></textarea>
+    <textarea name="description" style="width: 400px; height: 50px;"></textarea>
     <div class="error" id="descriptionErr"></div>
     <div></div>
     <caption>
