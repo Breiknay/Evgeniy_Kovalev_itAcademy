@@ -7,19 +7,6 @@ function printError(elemId, hintMsg) {
 
 const regexForWorkers = /^[\p{L}\s]+$/u;
 
-let error = {
-    workersErr: true,
-    sitenameErr: true,
-    siteurlErr: true,
-    dateErr: true,
-    visitorsErr: true,
-    emailErr: true,
-    descriptionErr: true,
-    paymentErr: true,
-    votesErr: true,
-    typeSiteErr: true
-}
-
 
 form.workers.addEventListener("blur", function () {
     let workers = document.form.workers.value;
@@ -49,12 +36,12 @@ form.sitename.addEventListener("blur", function () {
 form.siteUrlForYou.addEventListener("blur", function () {
     let siteUrlForYou = document.form.siteUrlForYou.value;
     if (!siteUrlForYou) {
-        printError("siteurlErr", "Пожалуйста, введите название сайта");
+        printError("siteUrlForYouErr", "Пожалуйста, введите название сайта");
     } else {
         if (siteUrlForYou.indexOf('https://') === -1) {
-            printError("siteurlErr", "Пожалуйста, укажите действильный сайт");
+            printError("siteUrlForYouErr", "Пожалуйста, укажите действильный сайт");
         } else {
-            printError("siteurlErr", "");
+            printError("siteUrlForYouErr", "");
         }
     }
 })
@@ -64,16 +51,15 @@ form.dateNowTime.addEventListener("blur", function (event) {
     let dateNowTime = document.form.dateNowTime.value;
 
     if (!dateNowTime) {
-        event.preventDefault()
-        printError("dateErr", "Пожалуйста, укажите дату");
+        printError("dateNowTimeErr", "Пожалуйста, укажите дату");
     } else {
 
         let targetDate = new Date(dateNowTime)
         let currentDate = new Date();
         if (targetDate.getTime() > currentDate.getTime()) {
-            printError("dateErr", "Пожалуйста, нормальную дату");
+            printError("dateNowTimeErr", "Пожалуйста, нормальную дату");
         } else {
-            printError("dateErr", "");
+            printError("dateNowTimeErr", "");
         }
     }
 })
@@ -133,30 +119,36 @@ form.addEventListener('submit', function (event) {
     let votes = document.getElementsByName("votes");
     let typeSite = document.form.typeSite.value;
 
+    let error = {
+        workersErr: true,
+        sitenameErr: true,
+        siteUrlForYouErr: true,
+        dateNowTimeErr: true,
+        visitorsErr: true,
+        emailErr: true,
+        typeSiteErr: true,
+        paymentErr: true,
+        votesErr: true,
+        descriptionErr: true,
+    }
 
-    let workersFocus = document.form.workers
     let regexForWorkers = /^[\p{L}\s]+$/u;
     if (!workers) {
-        workersFocus.focus();
-        event.preventDefault()
+
         printError("workersErr", "Пожалуйста, введите ваше имя");
     } else {
 
         if (workers.length < 3) {
-            workersFocus.focus();
             printError("workersErr", "Пожалуйста, введите полное имя");
         } else if (regexForWorkers.test(workers) === false) {
-            workersFocus.focus();
             printError("workersErr", "Пожалуйста, введите правильное имя");
         } else {
             printError("workersErr", "");
             error.workersErr = false;
         }
     }
-    let sitenameFocus = document.form.sitename
     if (!sitename) {
-        sitenameFocus.focus();
-        event.preventDefault()
+
         printError("sitenameErr", "Пожалуйста, введите название сайта");
     } else {
         printError("sitenameErr", "");
@@ -165,52 +157,36 @@ form.addEventListener('submit', function (event) {
     }
 
 
-    let siteurlFocus = document.form.siteUrlForYou
-
     if (!siteUrlForYou) {
-        siteurlFocus.focus();
-        event.preventDefault()
-        printError("siteurlErr", "Пожалуйста, введите название сайта");
+        printError("siteUrlForYouErr", "Пожалуйста, введите название сайта");
     } else {
         if (siteUrlForYou.indexOf('https://') === -1) {
-            siteurlFocus.focus();
-            event.preventDefault()
-            printError("siteurlErr", "Пожалуйста, укажите действильный сайт");
+            printError("siteUrlForYouErr", "Пожалуйста, укажите действильный сайт");
         } else {
-            printError("siteurlErr", "");
-            error.siteurlErr = false;
+            printError("siteUrlForYouErr", "");
+            error.siteUrlForYouErr = false;
 
         }
     }
 
-    let dateFocus = document.form.dateNowTime
     if (!dateNowTime) {
-        dateFocus.focus();
-        event.preventDefault()
-        printError("dateErr", "Пожалуйста, укажите дату");
+        printError("dateNowTimeErr", "Пожалуйста, укажите дату");
     } else {
-
         let targetDate = new Date(dateNowTime)
-
         let currentDate = new Date();
-
         if (targetDate.getTime() > currentDate.getTime()) {
-            dateFocus.focus();
             event.preventDefault()
-            printError("dateErr", "Пожалуйста, нормальную дату");
+            printError("dateNowTimeErr", "Пожалуйста, нормальную дату");
 
         } else {
-            printError("dateErr", "");
-            error.dateErr = false;
+            printError("dateNowTimeErr", "");
+            error.dateNowTimeErr = false;
         }
 
     }
 
-
-    let visitorsFocus = document.form.visitors
 
     if (!visitors) {
-        visitorsFocus.focus();
         event.preventDefault()
         printError("visitorsErr", "Пожалуйста, укажите количество посетителей");
     } else {
@@ -224,33 +200,47 @@ form.addEventListener('submit', function (event) {
         }
     }
 
-    let emailFocus = document.form.email
     if (!email) {
-        emailFocus.focus();
         printError("emailErr", "Пожалуйста, введите адрес вашей электронной почты");
     } else {
 
         let regex = /^\S+@\S+\.\S+$/;
         if (regex.test(email) === false) {
-            visitorsFocus.focus();
             printError("emailErr", "Пожалуйста, введите действительный адрес электронной почты");
         } else {
             printError("emailErr", "");
             error.emailErr = false;
         }
     }
+    if (typeSite === "Select") {
+        printError("typeSiteErr", "Пожалуйста, выберите типа сайта");
+    } else {
+        printError("typeSiteErr", "");
+        error.typeSiteErr = false;
+    }
 
+    if (payment === "3") {
+        if (!votes[0].checked) {
+            printError("votesErr", "Если выбрано размещение VIP, то возможность оставлять отзывы, обязательно");
+        } else {
+            printError("votesErr", "");
+            error.votesErr = false;
+        }
 
-    if (!payment) {
+    } else {
+        printError("votesErr", "");
+        error.votesErr = false;
+    }
+
+    if (payment === "") {
+
         printError("paymentErr", "Пожалуйста, укажите, где будет размещение");
     } else {
         printError("paymentErr", "");
         error.paymentErr = false;
     }
 
-    let descriptionFocus = document.form.description
     if (!description) {
-        descriptionFocus.focus();
         printError("descriptionErr", "Пожалуйста, заполните информацию о сайте");
     } else {
 
@@ -259,41 +249,22 @@ form.addEventListener('submit', function (event) {
     }
 
 
-    if (payment === "3") {
-        if ((votes[0].checked) === false) {
-            printError("votesErr", "Если выбрано размещение VIP, то возможность оставлять отзывы обязательно");
-        } else {
-            printError("votesErr", "");
-            error.votesErr = false;
-        }
-
-    } else {
-        printError("paymentErr", "");
-        error.votesErr = false;
-    }
-
-
-    if (typeSite === "Select") {
-        printError("typeSiteErr", "Пожалуйста, выберите типа сайта");
-    } else {
-        printError("typeSiteErr", "");
-        error.typeSiteErr = false;
-
-    }
-
-    let sent = true
-    for (var key in error) {
+    for (let key in error) {
         if (error.hasOwnProperty(key)) {
             if (error[key] === true) {
-                sent = false
+                event.preventDefault()
+                const result = key.replace(/Err$/, "");
+                let documentForFocus = document.getElementById(result)
+                if (documentForFocus) {
+                    event.preventDefault()
+                    documentForFocus.focus()
+                }
+                break;
             }
 
         }
     }
 
-    if (!sent) {
-        event.preventDefault()
-    }
 
 })
 

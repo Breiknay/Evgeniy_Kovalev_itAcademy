@@ -7,29 +7,29 @@
 </head>
 <body>
 <form method="post" action="https://fe.it-academy.by/TestForm.php" name="form">
-    <label>Разработчики:</label><input type="longtext" name="workers" maxlength="25">
+    <label>Разработчики:</label><input type="longtext" id="workers" maxlength="25">
 
     <div class="error" id="workersErr"></div>
     <div></div>
-    <label>Название сайта:</label><input type="longtext" name="sitename">
+    <label>Название сайта:</label><input type="longtext" id="sitename">
     <span class="error-message"></span>
     <div class="error" id="sitenameErr"></div>
     <div></div>
-    <label>URL сайта:</label><input type="longtext" name="siteUrlForYou">
-    <div class="error" id="siteurlErr"></div>
+    <label>URL сайта:</label><input type="longtext" id="siteUrlForYou">
+    <div class="error" id="siteUrlForYouErr"></div>
     <div></div>
-    <label>Дата запуска сайта:</label><input type="date" name="dateNowTime">
-    <div class="error" id="dateErr"></div>
+    <label>Дата запуска сайта:</label><input type="date" id="dateNowTime">
+    <div class="error" id="dateNowTimeErr"></div>
     <div></div>
-    <label>Посетителей в сутки:</label><input type="number" name="visitors">
+    <label>Посетителей в сутки:</label><input type="number" id="visitors">
     <div class="error" id="visitorsErr"></div>
     <div></div>
     <label>E-mail для связи:</label>
-    <input type="shorttext" name="email">
+    <input type="shorttext" id="email">
     <div class="error" id="emailErr"></div>
     <div></div>
     <label>Рубрика каталога:</label>
-    <select name="typeSite">
+    <select id="typeSite">
         <option>Select</option>
         <option>здоровье</option>
         <option>домашний уют</option>
@@ -47,7 +47,7 @@
     <div class="error" id="votesErr"></div>
     <div></div>
     <label>Описание сайта:</label>
-    <textarea name="description" style="width: 400px; height: 50px;"></textarea>
+    <textarea id="description" style="width: 400px; height: 50px;"></textarea>
     <div class="error" id="descriptionErr"></div>
     <div></div>
     <caption>
