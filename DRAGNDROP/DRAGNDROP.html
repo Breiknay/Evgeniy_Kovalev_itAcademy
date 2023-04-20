@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=UTF-8>
+  <title>drag&amp;drop</title>
+</head>
+<body style='min-height: 100vh'>
+<img  src='http://fe.it-academy.by/Sites/0000007/sax.jpg'>
+<img  src='http://fe.it-academy.by/Sites/0000007/Yin_and_Yang.png' width=100>
+<img  src='http://fe.it-academy.by/Sites/0000007/Man-and-woman.png' width=150>
+<img  src='http://fe.it-academy.by/Sites/0000007/No_smoking.png' style='padding-left: 50px'>
+
+<script>
+  let active = false;
+  let currentX;
+  let currentY;
+  let initialX;
+  let initialY;
+  let xOffset = 0;
+  let yOffset = 0;
+
+  // Находим все изображения на странице
+  const images = document.getElementsByTagName('img');
+
+  // Добавляем обработчики событий мыши для каждого изображения
+  for (let i = 0; i < images.length; i++) {
+    images[i].addEventListener('mousedown', dragStart);
+    images[i].addEventListener('mouseup', dragEnd);
+    images[i].addEventListener('mousemove', drag);
+  }
+
+  // Обработчик события mousedown
+  function dragStart(e) {
+    initialX = e.clientX - xOffset;
+    initialY = e.clientY - yOffset;
+
+    if (e.target === this) {
+      active = true;
+
+      // Устанавливаем z-index текущего изображения больше, чем у остальных
+      this.style.zIndex = 5000;
+
+      // Меняем форму курсора на "move"
+      this.style.cursor = "move";
+    }
+  }
+
+  // Обработчик события mouseup
+  function dragEnd(e) {
+    e.preventDefault();
+    active = false;
+    initialX = currentX;
+    initialY = currentY;
+
+    // Возвращаем форму курсора к исходному значению
+    this.style.cursor = "default; ";
+
+  }
+
+  // Обработчик события mousemove
+  function drag(e) {
+    console.log(active)
+    if (active) {
+      e.preventDefault();
+
+      currentX = e.clientX - initialX;
+      currentY = e.clientY - initialY;
+
+      xOffset = currentX;
+      yOffset = currentY;
+      console.log(xOffset)
+      // Перемещаем текущее изображение
+      this.style.transform = "translate(" + currentX + "px, " + currentY + "px)";
+    }
+  }
+</script>
+
+</body>
+</html>
