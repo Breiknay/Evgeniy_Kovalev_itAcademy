@@ -91,6 +91,36 @@ form.email.addEventListener("blur", function (event) {
         }
     }
 })
+
+form.typeSite.addEventListener("change", function () {
+    let typeSite = document.form.typeSite.value
+    if (typeSite === "Select") {
+        printError("typeSiteErr", "Пожалуйста, выберите один из 3 вариантов");
+    } else {
+        printError("typeSiteErr", "");
+    }
+})
+
+form.votes.addEventListener("change", function () {
+    let votes = document.getElementsByName("votes");
+    if (!votes[0].checked) {
+        printError("votesErr", "Определитесь с выбором");
+    } else {
+        printError("votesErr", "");
+    }
+})
+for (let i = 0; i < form.payment.length; i++) {
+    form.payment[i].addEventListener("change", function () {
+        let payment = document.form.payment.value;
+        if (payment === "") {
+            printError("paymentErr", "Пожалуйста, укажите, где будет размещение");
+        } else {
+            printError("paymentErr", "");
+
+        }
+    })
+}
+
 form.description.addEventListener("blur", function (event) {
     let description = document.form.description.value;
     if (!description) {
@@ -108,163 +138,168 @@ form.description.addEventListener("blur", function (event) {
 
 
 form.addEventListener('submit', function (event) {
-    let workers = document.form.workers.value;
-    let sitename = document.form.sitename.value;
-    let siteUrlForYou = document.form.siteUrlForYou.value;
-    let dateNowTime = document.form.dateNowTime.value;
-    let visitors = document.form.visitors.value;
-    let email = document.form.email.value;
-    let description = document.form.description.value;
-    let payment = document.form.payment.value;
-    let votes = document.getElementsByName("votes");
-    let typeSite = document.form.typeSite.value;
+        let workers = document.form.workers.value;
+        let sitename = document.form.sitename.value;
+        let siteUrlForYou = document.form.siteUrlForYou.value;
+        let dateNowTime = document.form.dateNowTime.value;
+        let visitors = document.form.visitors.value;
+        let email = document.form.email.value;
+        let description = document.form.description.value;
+        let payment = document.form.payment.value;
+        let votes = document.getElementsByName("votes");
+        let typeSite = document.form.typeSite.value;
 
-    let error = {
-        workersErr: true,
-        sitenameErr: true,
-        siteUrlForYouErr: true,
-        dateNowTimeErr: true,
-        visitorsErr: true,
-        emailErr: true,
-        typeSiteErr: true,
-        paymentErr: true,
-        votesErr: true,
-        descriptionErr: true,
-    }
-
-    let regexForWorkers = /^[\p{L}\s]+$/u;
-    if (!workers) {
-
-        printError("workersErr", "Пожалуйста, введите ваше имя");
-    } else {
-
-        if (workers.length < 3) {
-            printError("workersErr", "Пожалуйста, введите полное имя");
-        } else if (regexForWorkers.test(workers) === false) {
-            printError("workersErr", "Пожалуйста, введите правильное имя");
-        } else {
-            printError("workersErr", "");
-            error.workersErr = false;
-        }
-    }
-    if (!sitename) {
-
-        printError("sitenameErr", "Пожалуйста, введите название сайта");
-    } else {
-        printError("sitenameErr", "");
-        error.sitenameErr = false;
-
-    }
-
-
-    if (!siteUrlForYou) {
-        printError("siteUrlForYouErr", "Пожалуйста, введите название сайта");
-    } else {
-        if (siteUrlForYou.indexOf('https://') === -1) {
-            printError("siteUrlForYouErr", "Пожалуйста, укажите действильный сайт");
-        } else {
-            printError("siteUrlForYouErr", "");
-            error.siteUrlForYouErr = false;
-
-        }
-    }
-
-    if (!dateNowTime) {
-        printError("dateNowTimeErr", "Пожалуйста, укажите дату");
-    } else {
-        let targetDate = new Date(dateNowTime)
-        let currentDate = new Date();
-        if (targetDate.getTime() > currentDate.getTime()) {
-            event.preventDefault()
-            printError("dateNowTimeErr", "Пожалуйста, нормальную дату");
-
-        } else {
-            printError("dateNowTimeErr", "");
-            error.dateNowTimeErr = false;
+        let error = {
+            workersErr: true,
+            sitenameErr: true,
+            siteUrlForYouErr: true,
+            dateNowTimeErr: true,
+            visitorsErr: true,
+            emailErr: true,
+            typeSiteErr: true,
+            paymentErr: true,
+            votesErr: true,
+            descriptionErr: true,
         }
 
-    }
+        let regexForWorkers = /^[\p{L}\s]+$/u;
+        if (!workers) {
 
-
-    if (!visitors) {
-        event.preventDefault()
-        printError("visitorsErr", "Пожалуйста, укажите количество посетителей");
-    } else {
-
-        if (visitors > '40') {
-            printError("visitorsErr", "Ого");
-            error.visitorsErr = false;
+            printError("workersErr", "Пожалуйста, введите ваше имя");
         } else {
-            printError("visitorsErr", "");
-            error.visitorsErr = false;
+
+            if (workers.length < 3) {
+                printError("workersErr", "Пожалуйста, введите полное имя");
+            } else if (regexForWorkers.test(workers) === false) {
+                printError("workersErr", "Пожалуйста, введите правильное имя");
+            } else {
+                printError("workersErr", "");
+                error.workersErr = false;
+            }
         }
-    }
+        if (!sitename) {
 
-    if (!email) {
-        printError("emailErr", "Пожалуйста, введите адрес вашей электронной почты");
-    } else {
-
-        let regex = /^\S+@\S+\.\S+$/;
-        if (regex.test(email) === false) {
-            printError("emailErr", "Пожалуйста, введите действительный адрес электронной почты");
+            printError("sitenameErr", "Пожалуйста, введите название сайта");
         } else {
-            printError("emailErr", "");
-            error.emailErr = false;
-        }
-    }
-    if (typeSite === "Select") {
-        printError("typeSiteErr", "Пожалуйста, выберите типа сайта");
-    } else {
-        printError("typeSiteErr", "");
-        error.typeSiteErr = false;
-    }
+            printError("sitenameErr", "");
+            error.sitenameErr = false;
 
-    if (payment === "3") {
-        if (!votes[0].checked) {
-            printError("votesErr", "Если выбрано размещение VIP, то возможность оставлять отзывы, обязательно");
-        } else {
-            printError("votesErr", "");
-            error.votesErr = false;
         }
 
-    } else {
-        printError("votesErr", "");
-        error.votesErr = false;
-    }
 
-    if (payment === "") {
+        if (!siteUrlForYou) {
+            printError("siteUrlForYouErr", "Пожалуйста, введите название сайта");
+        } else {
+            if (siteUrlForYou.indexOf('https://') === -1) {
+                printError("siteUrlForYouErr", "Пожалуйста, укажите действильный сайт");
+            } else {
+                printError("siteUrlForYouErr", "");
+                error.siteUrlForYouErr = false;
 
-        printError("paymentErr", "Пожалуйста, укажите, где будет размещение");
-    } else {
-        printError("paymentErr", "");
-        error.paymentErr = false;
-    }
+            }
+        }
 
-    if (!description) {
-        printError("descriptionErr", "Пожалуйста, заполните информацию о сайте");
-    } else {
-
-        printError("descriptionErr", "");
-        error.descriptionErr = false;
-    }
-
-
-    for (let key in error) {
-        if (error.hasOwnProperty(key)) {
-            if (error[key] === true) {
+        if (!dateNowTime) {
+            printError("dateNowTimeErr", "Пожалуйста, укажите дату");
+        } else {
+            let targetDate = new Date(dateNowTime)
+            let currentDate = new Date();
+            if (targetDate.getTime() > currentDate.getTime()) {
                 event.preventDefault()
-                const result = key.replace(/Err$/, "");
-                let documentForFocus = document.getElementById(result)
-                if (documentForFocus) {
-                    event.preventDefault()
-                    documentForFocus.focus()
-                }
-                break;
+                printError("dateNowTimeErr", "Пожалуйста, нормальную дату");
+
+            } else {
+                printError("dateNowTimeErr", "");
+                error.dateNowTimeErr = false;
             }
 
         }
+
+
+        if (!visitors) {
+            event.preventDefault()
+            printError("visitorsErr", "Пожалуйста, укажите количество посетителей");
+        } else {
+
+            if (visitors > '40') {
+                printError("visitorsErr", "Ого");
+                error.visitorsErr = false;
+            } else {
+                printError("visitorsErr", "");
+                error.visitorsErr = false;
+            }
+        }
+
+        if (!email) {
+            printError("emailErr", "Пожалуйста, введите адрес вашей электронной почты");
+        } else {
+
+            let regex = /^\S+@\S+\.\S+$/;
+            if (regex.test(email) === false) {
+                printError("emailErr", "Пожалуйста, введите действительный адрес электронной почты");
+            } else {
+                printError("emailErr", "");
+                error.emailErr = false;
+            }
+        }
+        if (typeSite === "Select") {
+            printError("typeSiteErr", "Пожалуйста, выберите типа сайта");
+        } else {
+            printError("typeSiteErr", "");
+            error.typeSiteErr = false;
+        }
+
+
+        if (payment === "") {
+            printError("paymentErr", "Пожалуйста, укажите, где будет размещение");
+        } else {
+            printError("paymentErr", "");
+            error.paymentErr = false;
+        }
+
+
+        if (payment === "3") {
+            if (!votes[0].checked) {
+                printError("votesErr", "Если выбрано размещение VIP, то возможность оставлять отзывы, обязательно");
+            } else {
+                printError("votesErr", "");
+                error.votesErr = false;
+            }
+
+        } else {
+            if (!votes[0].checked) {
+                printError("votesErr", "Вы уверены, что не нужно размещать?");
+            } else {
+                printError("votesErr", "");
+                error.votesErr = false;
+            }
+        }
+        if (!description) {
+            printError("descriptionErr", "Пожалуйста, заполните информацию о сайте");
+        } else {
+
+            printError("descriptionErr", "");
+            error.descriptionErr = false;
+        }
+
+
+        for (let key in error) {
+            if (error.hasOwnProperty(key)) {
+                if (error[key] === true) {
+                    event.preventDefault()
+                    const result = key.replace(/Err$/, "");
+                    let documentForFocus = document.getElementById(result)
+                    if (documentForFocus) {
+                        event.preventDefault()
+                        documentForFocus.focus()
+                    }
+                    break;
+                }
+
+            }
+        }
+
+
     }
-
-
-})
+)
 
