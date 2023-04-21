@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=UTF-8>
+    <title>drag&amp;drop</title>
+</head>
+<body style='min-height: 100vh'>
+<img src='http://fe.it-academy.by/Sites/0000007/sax.jpg'>
+<img src='http://fe.it-academy.by/Sites/0000007/Yin_and_Yang.png' width=100>
+<img src='http://fe.it-academy.by/Sites/0000007/Man-and-woman.png' width=150>
+<img src='http://fe.it-academy.by/Sites/0000007/No_smoking.png' style='padding-left: 50px'>
+
+<script>
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+
+        img.addEventListener('mousedown', dragStart);
+        img.addEventListener('mouseup', dragEnd);
+
+
+        // функция для начала перетаскивания изображения
+        function dragStart(e) {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+            if (e.target === img) {
+                img.style.zIndex = 5000;
+            }
+            img.addEventListener('mousemove', drag);
+        }
+
+        // функция для окончания перетаскивания изображения
+        function dragEnd(e) {
+            img.style.zIndex = 0;
+            img.removeEventListener('mousemove',drag,false)
+        }
+
+        // функция для перетаскивания изображения
+        function drag(e) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+                xOffset = currentX;
+                yOffset = currentY;
+                setTranslate(currentX, currentY, img);
+        }
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+    });
+</script>
+
+</body>
+</html>
