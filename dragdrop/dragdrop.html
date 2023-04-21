@@ -11,48 +11,33 @@
 <img src='http://fe.it-academy.by/Sites/0000007/No_smoking.png' style='padding-left: 50px'>
 
 <script>
-    const images = document.querySelectorAll('img');
-    images.forEach(img => {
-        let currentX;
-        let currentY;
-        let initialX;
-        let initialY;
-        let xOffset = 0;
-        let yOffset = 0;
+    let zIndex = 0;
+    document.onmousedown = function(event) {
+        var tar = event.target;
+        if (tar.tagName !== 'IMG') return;
 
-        img.addEventListener('mousedown', dragStart);
-        img.addEventListener('mouseup', dragEnd);
+        var shiftX = event.pageX - tar.getBoundingClientRect().left;
+        var shiftY = event.pageY - tar.getBoundingClientRect().top;
+        zIndex++
+        tar.style.zIndex = zIndex;
 
 
-        // функция для начала перетаскивания изображения
-        function dragStart(e) {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-            if (e.target === img) {
-                img.style.zIndex = 5000;
-            }
-            img.addEventListener('mousemove', drag);
-        }
+        tar.style.position = 'absolute';
+        document.onmousemove = function(event) {
 
-        // функция для окончания перетаскивания изображения
-        function dragEnd(e) {
-            img.style.zIndex = 0;
-            img.removeEventListener('mousemove',drag,false)
-        }
+            tar.style.left = event.pageX - shiftX + 'px';
+            tar.style.top = event.pageY - shiftY + 'px';
+        };
 
-        // функция для перетаскивания изображения
-        function drag(e) {
-                e.preventDefault();
-                currentX = e.clientX - initialX;
-                currentY = e.clientY - initialY;
-                xOffset = currentX;
-                yOffset = currentY;
-                setTranslate(currentX, currentY, img);
-        }
-        function setTranslate(xPos, yPos, el) {
-            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-        }
-    });
+        tar.onmouseup = function() {
+            document.onmousemove = tar.onmouseup = null;
+
+        };
+
+        tar.ondragstart = function() {
+            return false;
+        };
+    };
 </script>
 
 </body>
