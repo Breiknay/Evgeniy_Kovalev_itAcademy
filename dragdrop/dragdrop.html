@@ -11,33 +11,50 @@
 <img src='http://fe.it-academy.by/Sites/0000007/No_smoking.png' style='padding-left: 50px'>
 
 <script>
-    let zIndex = 0;
-    document.onmousedown = function(event) {
-        var tar = event.target;
-        if (tar.tagName !== 'IMG') return;
+    window.onload = onloadImg
 
-        var shiftX = event.pageX - tar.getBoundingClientRect().left;
-        var shiftY = event.pageY - tar.getBoundingClientRect().top;
-        zIndex++
-        tar.style.zIndex = zIndex;
+    function onloadImg() {
+        let zIndex = 0;
+        const images = document.querySelectorAll('img');
+
+        for (const image of images) {
+            let left = image.offsetLeft
+            let top = image.offsetTop
+            if (image.hasAttribute("style")) {
+                image.style.cssText= `padding-left: 50px`
+            }
+
+            image.style.cssText+= `left:${left}px; top:${top}px;`
+        }
+        for (const image of images) {
+            image.style.position = 'absolute'
+        }
+        document.onmousedown = function (event) {
+            var tar = event.target;
+            if (tar.tagName !== 'IMG') return;
+
+            var shiftX = event.pageX - tar.getBoundingClientRect().left;
+            var shiftY = event.pageY - tar.getBoundingClientRect().top;
+            zIndex++
+            tar.style.zIndex = zIndex;
 
 
-        tar.style.position = 'absolute';
-        document.onmousemove = function(event) {
+            document.onmousemove = function (event) {
 
-            tar.style.left = event.pageX - shiftX + 'px';
-            tar.style.top = event.pageY - shiftY + 'px';
+                tar.style.left = event.pageX - shiftX + 'px';
+                tar.style.top = event.pageY - shiftY + 'px';
+            };
+
+            tar.onmouseup = function () {
+                document.onmousemove = tar.onmouseup = null;
+
+            };
+
+            tar.ondragstart = function () {
+                return false;
+            };
         };
-
-        tar.onmouseup = function() {
-            document.onmousemove = tar.onmouseup = null;
-
-        };
-
-        tar.ondragstart = function() {
-            return false;
-        };
-    };
+    }
 </script>
 
 </body>
