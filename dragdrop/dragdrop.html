@@ -20,21 +20,19 @@
         for (const image of images) {
             let left = image.offsetLeft
             let top = image.offsetTop
-            if (image.hasAttribute("style")) {
-                image.style.cssText= `padding-left: 50px`
-            }
 
-            image.style.cssText+= `left:${left}px; top:${top}px;`
+            image.style.cssText += `left:${left}px; top:${top}px;`
         }
         for (const image of images) {
             image.style.position = 'absolute'
+            image.addEventListener('mousedown', dragStart);
         }
-        document.onmousedown = function (event) {
-            var tar = event.target;
-            if (tar.tagName !== 'IMG') return;
 
-            var shiftX = event.pageX - tar.getBoundingClientRect().left;
-            var shiftY = event.pageY - tar.getBoundingClientRect().top;
+        function dragStart(event) {
+            var tar = event.target;
+
+            var shiftX = event.pageX - tar.offsetLeft;
+            var shiftY = event.pageY - tar.offsetTop;
             zIndex++
             tar.style.zIndex = zIndex;
 
@@ -53,7 +51,7 @@
             tar.ondragstart = function () {
                 return false;
             };
-        };
+        }
     }
 </script>
 
