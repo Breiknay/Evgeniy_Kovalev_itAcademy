@@ -1,4 +1,4 @@
-let primer= "2+1)";
+
 function calculate(expression) {
     let result = 0;
     let operator = '+';
@@ -13,7 +13,6 @@ function calculate(expression) {
         } else {
 
             const num = parseFloat(numBuffer);
-            console.log(num)
             if (!isNaN(num)) {
                 switch (operator) {
                     case '+':
@@ -83,4 +82,3 @@ function calculate(expression) {
 
     return result;
 }
-console.log(calculate(primer))
