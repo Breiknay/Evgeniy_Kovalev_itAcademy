@@ -3,15 +3,20 @@ function calculate(expression) {
     let operator = '+';
     let numBuffer = '';
     const stack = [];
+    let isUnaryMinus = true;
 
     for (let i = 0; i < expression.length; i++) {
         const char = expression[i];
 
-        if (/\d|\./.test(char)) {
+        if (/[\d.]/.test(char)) {
             numBuffer += char;
+            isUnaryMinus = false;
         } else if (char === '-') {
-            if (i === 0 || /\+|\-|\*|\//.test(expression[i - 1]) || expression[i - 1] === '(') {
-                numBuffer = '-';
+            if (i === 0 || /[\+\-\*\/\(]/.test(expression[i - 1])) {
+                isUnaryMinus = true;
+            } else if (isUnaryMinus) {
+                operator = '-';
+                isUnaryMinus = false;
             } else {
                 const num = parseFloat(numBuffer);
                 if (!isNaN(num)) {
@@ -29,13 +34,11 @@ function calculate(expression) {
                             result /= num;
                             break;
                     }
-
                     numBuffer = '';
                 }
                 operator = '-';
             }
         } else {
-
             const num = parseFloat(numBuffer);
             if (!isNaN(num)) {
                 switch (operator) {
@@ -52,10 +55,9 @@ function calculate(expression) {
                         result /= num;
                         break;
                 }
-
                 numBuffer = '';
             }
-
+            isUnaryMinus = true;
             if (char === '(') {
                 stack.push(result);
                 stack.push(operator);
@@ -64,7 +66,6 @@ function calculate(expression) {
             } else if (char === ')') {
                 const prevOperator = stack.pop();
                 const prevResult = stack.pop();
-
                 switch (prevOperator) {
                     case '+':
                         result = prevResult + result;
@@ -79,14 +80,12 @@ function calculate(expression) {
                         result = prevResult / result;
                         break;
                 }
-            } else if (char === '+' || char === '-' || char === '*' || char === '/') {
+            } else if (/[\+\-\*\/]/.test(char)) {
                 operator = char;
             }
         }
     }
-
     const num = parseFloat(numBuffer);
-
     if (!isNaN(num)) {
         switch (operator) {
             case '+':
@@ -103,6 +102,5 @@ function calculate(expression) {
                 break;
         }
     }
-
     return result;
 }
