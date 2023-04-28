@@ -1,4 +1,3 @@
-
 function calculate(expression) {
     let result = 0;
     let operator = '+';
@@ -10,6 +9,31 @@ function calculate(expression) {
 
         if (/\d|\./.test(char)) {
             numBuffer += char;
+        } else if (char === '-') {
+            if (i === 0 || /\+|\-|\*|\//.test(expression[i - 1]) || expression[i - 1] === '(') {
+                numBuffer = '-';
+            } else {
+                const num = parseFloat(numBuffer);
+                if (!isNaN(num)) {
+                    switch (operator) {
+                        case '+':
+                            result += num;
+                            break;
+                        case '-':
+                            result -= num;
+                            break;
+                        case '*':
+                            result *= num;
+                            break;
+                        case '/':
+                            result /= num;
+                            break;
+                    }
+
+                    numBuffer = '';
+                }
+                operator = '-';
+            }
         } else {
 
             const num = parseFloat(numBuffer);
