@@ -116,7 +116,7 @@ window.addEventListener("keyup", function (eo) {
 });
 
 
-let scoreBoard = document.getElementById("scoreBoard") //сoздаём div для табло
+let scoreBoard = document.getElementById("scoreBoard")
 let score1 = 0;
 let score2 = 0;
 
@@ -126,9 +126,9 @@ function scoreBoardInnerHTML() {
 
 scoreBoardInnerHTML();
 
-function start() {
-    ballH.speedX = 10;
-    ballH.speedY = 4;
+function continuationGame() {
+    ballH.speedX = 6;
+    ballH.speedY = 3;
 }
 
 
@@ -169,13 +169,7 @@ function tick() {
 
         ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width - ballH.width - 1;
 
-        window.setTimeout(function () {
-            messageGoal.innerHTML = "";
-            ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width - racquetH.width;
-            ballH.posY = racquetH.racquet2PosY + racquetH.height / 2;
-
-            start();
-        }, 2000);
+        delay(2000)
 
     } else if (!(ballH.posY + ballH.height < racquetH.racquet2PosY || ballH.posY > (racquetH.racquet2PosY + racquetH.height)) && ballH.posX + ballH.width > (racquetH.racquet2PosX)) {
         ballH.speedX = -ballH.speedX;
@@ -193,12 +187,7 @@ function tick() {
 
         ballH.posX = wrap.getBoundingClientRect().left + 1;
 
-        window.setTimeout(function () {
-            messageGoal.innerHTML = "";
-            ballH.posX = wrap.getBoundingClientRect().left + racquetH.width;
-            ballH.posY = racquetH.racquet1PosY + racquetH.height / 2;
-            start();
-        }, 2000);
+        delay(2000)
 
     } else if (!(ballH.posY + ballH.height < racquetH.racquet1PosY || ballH.posY > (racquetH.racquet1PosY + racquetH.height)) && ballH.posX < (racquetH.width + racquetH.racquet1PosX)) {
         ballH.speedX = -ballH.speedX;
@@ -224,3 +213,25 @@ function tick() {
 }
 
 requestAnimationFrame(tick);
+
+function delay(ms) {
+    window.setTimeout(function () {
+        messageGoal.innerHTML = "";
+        ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width / 2 - ball.getBoundingClientRect().width / 2
+        ballH.posY = wrap.getBoundingClientRect().top + wrap.getBoundingClientRect().height / 2 - ball.getBoundingClientRect().height / 2
+        continuationGame();
+    }, ms)
+
+}
+
+async function startGame() {
+    score1 = 0;
+    score2 = 0;
+    scoreBoardInnerHTML();
+    ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width / 2 - ball.getBoundingClientRect().width / 2
+    ballH.posY = wrap.getBoundingClientRect().top + wrap.getBoundingClientRect().height / 2 - ball.getBoundingClientRect().height / 2
+    ballH.update();
+    ballH.speedX = 6;
+    ballH.speedY = 3;
+}
+
