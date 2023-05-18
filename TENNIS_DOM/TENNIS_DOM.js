@@ -211,8 +211,6 @@ requestAnimationFrame(tick);
 
 function stopGame() {
     messageGoal.innerHTML = "";
-    ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width / 2 - ball.getBoundingClientRect().width / 2
-    ballH.posY = wrap.getBoundingClientRect().top + wrap.getBoundingClientRect().height / 2 - ball.getBoundingClientRect().height / 2
     ballH.speedX = 0;
     ballH.speedY = 0;
 }
