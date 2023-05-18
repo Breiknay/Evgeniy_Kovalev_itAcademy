@@ -169,7 +169,7 @@ function tick() {
 
         ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width - ballH.width - 1;
 
-        delay(2000)
+        stopGame()
 
     } else if (!(ballH.posY + ballH.height < racquetH.racquet2PosY || ballH.posY > (racquetH.racquet2PosY + racquetH.height)) && ballH.posX + ballH.width > (racquetH.racquet2PosX)) {
         ballH.speedX = -ballH.speedX;
@@ -187,7 +187,7 @@ function tick() {
 
         ballH.posX = wrap.getBoundingClientRect().left + 1;
 
-        delay(2000)
+        stopGame()
 
     } else if (!(ballH.posY + ballH.height < racquetH.racquet1PosY || ballH.posY > (racquetH.racquet1PosY + racquetH.height)) && ballH.posX < (racquetH.width + racquetH.racquet1PosX)) {
         ballH.speedX = -ballH.speedX;
@@ -214,17 +214,16 @@ function tick() {
 
 requestAnimationFrame(tick);
 
-function delay(ms) {
-    window.setTimeout(function () {
-        messageGoal.innerHTML = "";
-        ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width / 2 - ball.getBoundingClientRect().width / 2
-        ballH.posY = wrap.getBoundingClientRect().top + wrap.getBoundingClientRect().height / 2 - ball.getBoundingClientRect().height / 2
-        continuationGame();
-    }, ms)
+function stopGame() {
+    messageGoal.innerHTML = "";
+    ballH.posX = wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width / 2 - ball.getBoundingClientRect().width / 2
+    ballH.posY = wrap.getBoundingClientRect().top + wrap.getBoundingClientRect().height / 2 - ball.getBoundingClientRect().height / 2
 
+    ballH.speedX = 0;
+    ballH.speedY = 0;
 }
 
-async function startGame() {
+function startGame() {
     score1 = 0;
     score2 = 0;
     scoreBoardInnerHTML();
