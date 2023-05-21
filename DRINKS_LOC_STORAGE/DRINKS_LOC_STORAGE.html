@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="DRINKS_LOC_STORAGE.js"></script>
+    <style>
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .drink-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .food-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+<div class="button-container">
+    <button class="drink-button" onclick="makeDrink()">Создать напиток</button>
+    <button class="drink-button" id="getDrink" onclick="getDrink()">Получить информацию о напитке</button>
+    <button class="drink-button" id="deleteDrink" onclick="deleteDrink()">Удалить напиток</button>
+    <button class="drink-button" onclick="getAllDrink()">Получить названия напитков</button>
+</div>
+<div class="button-container">
+    <button class="food-button" onclick="makeFood()">Создать блюдо</button>
+    <button class="food-button" id="getFood" onclick="getFood()">Получить информацию о блюде</button>
+    <button class="food-button" id="deleteFood" onclick="deleteFood()">Удалить блюдо</button>
+    <button class="food-button" onclick="getAllFood()">Получить названия блюд</button>
+</div>
+</body>
+</html>
