@@ -5,7 +5,7 @@ let ctx = canvas.getContext('2d');
 let form = document.forms.frm;
 let btn = document.getElementById('button');
 let diameter = frm.elements.Diameter;
-let d = new Date();
+var d = new Date();
 btn.addEventListener('click', function (EO) {
     form.style.display = "none";
     drawClock();
