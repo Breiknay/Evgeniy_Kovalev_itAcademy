@@ -1,161 +1,138 @@
-"use strict"
-let form = document.forms.frm
-let btn = document.getElementById('button')
-let diameter = frm.elements.Diameter
+'use strict';
 
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let form = document.forms.frm;
+let btn = document.getElementById('button');
+let diameter = frm.elements.Diameter;
+let d = new Date();
 btn.addEventListener('click', function (EO) {
-    form.style.display = "none"
-    let divClock = document.getElementById('divClock')
-    divClock.style.margin = "50px";
-    let clock = document.getElementById('clock');
+    form.style.display = "none";
+    drawClock();
+    displayAnalogTime(d);
+    setInterval(function () {
 
-    clock.setAttribute("height", diameter.value);
-    clock.setAttribute("width", diameter.value);
-    let ctx = clock.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawClock(d);
+        let hours = d.getHours();
+        let minutes = d.getMinutes();
+        let seconds = d.getSeconds();
+        console.log(str0l(hours, 2) + ':' + str0l(minutes, 2) + ':' + str0l(seconds, 2));
+        displayAnalogTime(d);
+    }, 1000);
 
-   let centerX = clock.offsetWidth / 2 // узнаем центр canvas(обвёртки) по X
-       let centerY = clock.offsetHeight / 2 // узнаем центр canvas(обвёртки) по Y
-    let radius = centerX < centerY ? centerX*0.95 : centerY*0.95;
-    ctx.fillStyle = 'rgba(255, 210, 20, 0.9)';
-    ctx.strokeStyle = 'rgb(100, 100, 100)';
-    ctx.lineWidth = radius/25;
+
+});
+
+function displayAnalogTime(d) {
+    let clockCenterX = diameter.value / 2;
+    let clockCenterY = diameter.value / 2;
+    ctx.fillStyle = "black";
+    ctx.font = `${diameter.value * 0.09}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.fillText(formatDateTime(d), clockCenterX, diameter.value / 3);
+
+    let tSec = (6 * d.getSeconds() - 90) * Math.PI / 180;
+    let tMin = (6 * (d.getMinutes() + (1 / 60) * d.getSeconds()) - 90) * Math.PI / 180;
+    let tHour = (30 * (d.getHours() + (1 / 60) * d.getMinutes()) - 90) * Math.PI / 180;
+    ctx.lineCap = 'round';
+    let secShift = diameter.value / 5;
+    let minShift = diameter.value / 4;
+    let hourShift = diameter.value / 3;
+
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = diameter.value / 40;
     ctx.beginPath();
-    ctx.arc(centerX,centerY,radius,0,Math.PI*2,true);
+
+    ctx.moveTo(clockCenterX, clockCenterY);
+    let secTipX = clockCenterX + (diameter.value / 2 - secShift) * Math.cos(tSec);
+    let secTipY = clockCenterY + (diameter.value / 2 - secShift) * Math.sin(tSec);
+    ctx.lineTo(secTipX, secTipY);
     ctx.stroke();
+
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = diameter.value / 40;
+    ctx.beginPath();
+
+    ctx.moveTo(clockCenterX, clockCenterY);
+    let minTipX = clockCenterX + (diameter.value / 2 - minShift) * Math.cos(tMin);
+    let minTipY = clockCenterY + (diameter.value / 2 - minShift) * Math.sin(tMin);
+    ctx.lineTo(minTipX, minTipY);
+    ctx.stroke();
+
+
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = diameter.value / 40;
+    ctx.beginPath();
+
+    ctx.moveTo(clockCenterX, clockCenterY);
+    let hourTipX = clockCenterX + (diameter.value / 2 - hourShift) * Math.cos(tHour);
+    let hourTipY = clockCenterY + (diameter.value / 2 - hourShift) * Math.sin(tHour);
+    ctx.lineTo(hourTipX, hourTipY);
+    ctx.stroke();
+
+}
+
+
+function drawClock(d) {
+
+    let divClock = document.getElementById('divClock');
+    divClock.style.margin = "50px";
+    canvas.setAttribute("height", diameter.value);
+    canvas.setAttribute("width", diameter.value);
+    ctx.fillStyle = "orange";
+    ctx.beginPath();
+    ctx.ellipse(
+        diameter.value / 2,
+        diameter.value / 2,
+        diameter.value / 2,
+        diameter.value / 2,
+        0,
+        0,
+        2 * Math.PI
+    );
     ctx.fill();
-let angleValue = 0
-    let distanceOfDigits = 30
+
+
+    let clockRadius = diameter.value / 2.5;
+    let clockCenterX = diameter.value / 2;
+    let clockCenterY = diameter.value / 2;
+
     for (let i = 1; i <= 12; i++) {
-        var smallCircleCX,
-            smallCircleCY,
-            smallCircleRadius = 20,
-            smallCircleColor = "#48B382",
-            angle;
-
-        angleValue += distanceOfDigits;
-        angle = angleValue / 180 * Math.PI;
-
-        smallCircleCX = Math.round(centerX + 120 * Math.sin(angle));
-        smallCircleCY = Math.round(centerY - 120 * Math.cos(angle));
-
+        ctx.fillStyle = "green";
         ctx.beginPath();
-        ctx.fillStyle = smallCircleColor;
-        ctx.arc(smallCircleCX,smallCircleCY,smallCircleRadius,0,Math.PI*2, false);
+        let angle = i * (Math.PI / 6);
+        let diameterHour = diameter.value / 15;
+        let hourNumberCenterX = clockCenterX + clockRadius * Math.sin(angle);
+        let hourNumberCenterY = clockCenterY - clockRadius * Math.cos(angle);
+        ctx.ellipse(
+            hourNumberCenterX,
+            hourNumberCenterY,
+            diameterHour,
+            diameterHour,
+            0,
+            0,
+            2 * Math.PI
+        );
         ctx.fill();
 
-        ctx.fillStyle ='black';
-        ctx.font ="normal normal 20px 'Times New Roman'";
-        ctx.textAlign='center';
-        ctx.textBaseline='middle';
-        ctx.fillText(i,smallCircleCX, smallCircleCY);
+        ctx.fillStyle = "black";
+        ctx.font = `${diameter.value * 0.07}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.fillText(i.toString(), hourNumberCenterX, hourNumberCenterY);
     }
+}
 
+function formatDateTime(dt) {
+    let hours = dt.getHours();
+    let minutes = dt.getMinutes();
+    let seconds = dt.getSeconds();
+    return str0l(hours, 2) + ':' + str0l(minutes, 2) + ':' + str0l(seconds, 2);
+}
 
-    // circle.setAttribute("fill", "orange");
-    // circle.setAttribute("rx", diameter.value / 2);
-    // circle.setAttribute("ry", diameter.value / 2);
-    // circle.setAttribute("cx", diameter.value / 2);
-    // circle.setAttribute("cy", diameter.value / 2);
-    //
-    // let clockRadius = diameter.value / 2.5;
-    // let clockCenterX = diameter.value / 2;
-    // let clockCenterY = diameter.value / 2;
-    //
-    // let clockHand = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-    // clock.appendChild(clockHand)
-    // clockHand.setAttribute("fill", "black");
-    // clockHand.setAttribute("rx", '2.5');
-    // clockHand.setAttribute("ry", '2.55');
-    // clockHand.setAttribute("x", diameter.value / 2.01);
-    // clockHand.setAttribute("y", diameter.value / 5.7);
-    // clockHand.setAttribute('height', 0.82 * clockRadius)
-    // clockHand.setAttribute('width', 0.02 * clockRadius)
-    //
-    // let clockHand2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-    // clock.appendChild(clockHand2)
-    // clockHand2.setAttribute("fill", "blue");
-    // clockHand2.setAttribute("rx", '2.5');
-    // clockHand2.setAttribute("ry", '2.55');
-    // clockHand2.setAttribute("x", diameter.value / 2);
-    // clockHand2.setAttribute("y", diameter.value / 3.7);
-    // clockHand2.setAttribute('height', 0.6 * clockRadius)
-    // clockHand2.setAttribute('width', 0.02 * clockRadius)
-    //
-    // let clockHand3 = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-    // clock.appendChild(clockHand3)
-    // clockHand3.setAttribute("fill", "red");
-    // clockHand3.setAttribute("rx", '2.5');
-    // clockHand3.setAttribute("ry", '2.55');
-    // clockHand3.setAttribute("x", diameter.value / 2.05);
-    // clockHand3.setAttribute("y", diameter.value / 2.9);
-    // clockHand3.setAttribute('height', 0.4 * clockRadius)
-    // clockHand3.setAttribute('width', 0.02 * clockRadius)
-    //
-    // for (let i = 1; i <= 12; i++) {
-    //     let hourDiv = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse')
-    //     clock.appendChild(hourDiv);
-    //     let angle = i * (Math.PI / 6);
-    //     let diameterHour = diameter.value / 15;
-    //     let hourNumberCenterX = clockCenterX + clockRadius * Math.sin(angle);
-    //     let hourNumberCenterY = clockCenterY - clockRadius * Math.cos(angle);
-    //     hourDiv.setAttribute("fill", "green");
-    //     hourDiv.setAttribute("rx", diameterHour);
-    //     hourDiv.setAttribute("ry", diameterHour);
-    //     hourDiv.setAttribute("cx", hourNumberCenterX);
-    //     hourDiv.setAttribute("cy", hourNumberCenterY)
-    //
-    //     let hourSpan = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-    //     clock.appendChild(hourSpan);
-    //     hourSpan.textContent = i;
-    //     hourSpan.setAttribute("x", hourNumberCenterX);
-    //     hourSpan.setAttribute("y", hourNumberCenterY);
-    //     hourSpan.setAttribute("text-anchor", 'middle');
-    //
-    //     hourSpan.setAttribute("font-size", diameter.value * 0.07);
-    // }
-    //
-    // let lineClock = document.createElementNS('http://www.w3.org/2000/svg', 'text')//////////линейные часы
-    // clock.appendChild(lineClock);
-    // lineClock.setAttribute("y", diameter.value / 3);
-    // lineClock.setAttribute("x", diameter.value / 2.8);
-    // lineClock.setAttribute("font-size", diameter.value * 0.08)
-    // lineClock.id = "line"
-    //
-    // updateTime()
-    // setInterval(updateTime, 1000)
-    //
-    // function updateTime() {
-    //     const currTime = new Date();
-    //     document.getElementById('line').innerHTML = formatDateTime(currTime);
-    //     clocks()
-    //
-    //     function formatDateTime(dt) {
-    //         let hours = dt.getHours();
-    //         let minutes = dt.getMinutes();
-    //         let seconds = dt.getSeconds();
-    //         return str0l(hours, 2) + ':' + str0l(minutes, 2) + ':' + str0l(seconds, 2);
-    //     }
-    //
-    //     function str0l(val, len) {
-    //         let strVal = val.toString();
-    //         while (strVal.length < len)
-    //             strVal = '0' + strVal;
-    //         return strVal;
-    //     }
-    //
-    //     function clocks() {
-    //         let hours = currTime.getHours();
-    //         let minutes = currTime.getMinutes();
-    //         let seconds = currTime.getSeconds();
-    //         let rotateCount = 360 / 60 * seconds;
-    //         let rotateCount2 = 360 / 60 * minutes;
-    //         let rotateCount3 = 360 / 12 * (hours + minutes / 60)
-    //         clockHand.setAttribute('transform', `rotate(${rotateCount} ${diameter.value / 2} ${diameter.value / 2} )`)
-    //         clockHand2.setAttribute('transform', `rotate(${rotateCount2} ${diameter.value / 2} ${diameter.value / 2} )`)
-    //         clockHand3.setAttribute('transform', `rotate(${rotateCount3} ${diameter.value / 2} ${diameter.value / 2} )`)
-    //         console.log(str0l(hours, 2) + ':' + str0l(minutes, 2) + ':' + str0l(seconds, 2))
-    //     }
-    // }
-    //
-
-})
+function str0l(val, len) {
+    let strVal = val.toString();
+    while (strVal.length < len)
+        strVal = '0' + strVal;
+    return strVal;
+}
