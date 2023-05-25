@@ -5,23 +5,25 @@ let ctx = canvas.getContext('2d');
 let form = document.forms.frm;
 let btn = document.getElementById('button');
 let diameter = frm.elements.Diameter;
-var d = new Date();
+
 btn.addEventListener('click', function (EO) {
+
     form.style.display = "none";
+    let d = new Date();
     drawClock();
     displayAnalogTime(d);
     setInterval(function () {
 
+        let d = new Date();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawClock(d);
+        displayAnalogTime(d);
         let hours = d.getHours();
         let minutes = d.getMinutes();
         let seconds = d.getSeconds();
         console.log(str0l(hours, 2) + ':' + str0l(minutes, 2) + ':' + str0l(seconds, 2));
-        displayAnalogTime(d);
+
     }, 1000);
-
-
 });
 
 function displayAnalogTime(d) {
