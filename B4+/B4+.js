@@ -1,7 +1,7 @@
 "use strict";
+let words = ['ТАРА', 'ЛИПА', 'ТУРА', 'ЛУЖА', 'ПАРК', 'ЛОЖЬ', 'ЛУПА', 'ПЛОТ', 'МУРА', 'ПАУК', 'ПАУТ', 'ПЛУТ', 'ЛОЖА', 'СЛОТ', 'ПАРА'];
 
 function findShortestChain(str1, str2) {
-    let words = ['ТАРА', 'ЛИПА', 'ТУРА', 'ЛУЖА', 'ПАРК', 'ЛОЖЬ', 'ЛУПА', 'ПЛОТ', 'МУРА', 'ПАУК', 'ПАУТ', 'ПЛУТ', 'ЛОЖА', 'СЛОТ', 'ПАРА'];
     words.push(str2);
     let used = {};
     return findСouple(str1, str2, words).reduce(delimiter)
