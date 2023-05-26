@@ -44,3 +44,4 @@ function findShortestChain(str1, str2) {
 }
 
 console.log(findShortestChain('ЛИCА', 'ЛОСЬ'))
+console.log(findShortestChain('МУХА', 'СЛОН'))
