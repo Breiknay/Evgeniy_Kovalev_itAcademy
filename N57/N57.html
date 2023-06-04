@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset=utf-8>
+<head>
+    <title>N.57 Домашнее задание CLOCK_MVC</title>
+    <style type="text/css">
+        table {
+            margin: 0 auto;
+        }
+
+        td {
+            padding: 20px;
+        }
+
+        .btn {
+            margin: 2px
+        }
+
+        .clock {
+            text-align: center;
+            font-size: 3em;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <tr>
+        <td id="clock1"></td>
+        <td id="clock2"></td>
+        <td id="clock3"></td>
+    </tr>
+    <tr>
+        <td id="clock4"></td>
+        <td id="clock5"></td>
+        <td id="clock6"></td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    'use strict';
+    let clock = document.getElementById('clock1')
+    //модель
+    class Clock {
+        constructor(city, GMT) {
+            this.city = city;
+            this.GMT = GMT;
+            this.timer = null;
+            this.view = null;
+            this.time = null;
+            this.setCurrentTime();
+        }
+
+        setCurrentTime() {
+            this.time = new Date(Date.now() + (new Date().getTimezoneOffset() + this.GMT * 60) * 60 * 1000);
+        }
+
+        getCurrentTime() {
+            return this.time;
+        }
+
+        updateView() {
+            if (this.view) this.view.update();
+        }
+
+        init(view) {
+            this.view = view;
+        }
+
+        start() {
+            if (this.timer) return; //если запущен таймер, то возврат
+
+            this.timer = setInterval(function () {
+                console.log(this);
+//					this.setCurrentTime();
+//					this.updateView();
+            }, 20);
+        }
+
+        stop() {
+            console.log('stop');
+            clearInterval(this.timer);
+            this.timer = null;
+            console.log(this.timer);
+        }
+
+        creatClock() {
+            clock.style.width = 200 + 'px';
+            clock.style.height = 200 + 'px';
+            clock.style.borderRadius = '50%';
+            clock.style.backgroundColor = "orange";
+            clock.style.position = 'absolute';
+            const l = 2.5 //для растояния от центра циферблата до границы зеленого круга
+            let clockRadius = 200 / l;
+            let clockCenterX = clock.offsetLeft + clock.offsetWidth / 2;
+            let clockCenterY = clock.offsetTop + clock.offsetHeight / 2;
+
+            let clockHand = document.createElement('div')
+            clock.appendChild(clockHand)
+            clockHand.style.position = 'absolute';
+            clockHand.style.height = 0.8 * clockRadius + 'px'
+            clockHand.style.width = 0.02 * clockRadius + 'px'
+            clockHand.style.top = 200 / 5.7 + 'px'
+            clockHand.style.left = 200 / 2 + 'px'
+            clockHand.style.background = "black"
+            clockHand.style.transformOrigin = "bottom center";
+            clockHand.style.borderRadius = "10px";
+            clockHand.style.zIndex = "10"
+
+
+            let clockHand2 = document.createElement('div')
+            clock.appendChild(clockHand2)
+            clockHand2.style.position = 'absolute';
+            clockHand2.style.height = 0.6 * clockRadius + 'px'
+            clockHand2.style.width = 0.02 * clockRadius + 'px'
+            clockHand2.style.top = 200 / 4 + 'px'
+            clockHand2.style.left = 200 / 2 + 'px'
+            clockHand2.style.background = "blue"
+            clockHand2.style.transformOrigin = "bottom center";
+            clockHand2.style.borderRadius = "10px";
+            clockHand.style.zIndex = "11"
+
+            let clockHand3 = document.createElement('div')
+            clock.appendChild(clockHand3)
+            clockHand3.style.position = 'absolute';
+            clockHand3.style.height = 0.4 * clockRadius + 'px'
+            clockHand3.style.width = 0.02 * clockRadius + 'px'
+            clockHand3.style.top =200 / 3 + 'px'
+            clockHand3.style.left = 200 / 2 + 'px'
+            clockHand3.style.background = "red"
+            clockHand3.style.transformOrigin = "bottom center";
+            clockHand3.style.borderRadius = "10px";
+            clockHand.style.zIndex = "12"
+
+
+            for (let i = 1; i <= 12; i++) {
+
+                let hourDiv = document.createElement('div')
+                let hourSpan = document.createElement('span')
+                hourSpan.textContent = i.toString();
+                hourSpan.style.position = "absolute"
+                hourSpan.style.top = '50%';
+                hourSpan.style.left = '50%';
+                hourSpan.style.transform = 'translate(-50%, -50%)';
+                hourSpan.style.fontSize = 200 * 0.06 + "px"
+                clock.appendChild(hourDiv);
+                hourDiv.appendChild(hourSpan)
+
+                let angle = i * (Math.PI / 6);
+                let hourNumberCenterX = clockCenterX + clockRadius * Math.sin(angle);
+                let hourNumberCenterY = clockCenterY - clockRadius * Math.cos(angle);
+                let diameterHour = 200 / 8;
+                hourDiv.style.width = diameterHour + 'px';
+                hourDiv.style.height = diameterHour + 'px';
+                hourDiv.style.left = (hourNumberCenterX - hourDiv.offsetWidth / 1.2) + 'px';
+                hourDiv.style.top = (hourNumberCenterY - hourDiv.offsetHeight / 1.2) + 'px';
+                hourDiv.style.position = 'absolute';
+                hourDiv.style.textAlign = 'center';
+                hourDiv.style.backgroundColor = "green"
+                hourDiv.style.borderRadius = '50%';
+            }
+
+            let lineClock = document.createElement('span')
+            clock.appendChild(lineClock)
+            lineClock.style.position = "absolute"
+            lineClock.style.top = 200 / 4 + 'px'
+            lineClock.style.left = 200 / 2.8 + 'px'
+            lineClock.style.fontSize = 200 * 0.08 + "px"
+            lineClock.id = "line"
+        }
+    }
+
+    //view
+    class ClockView {
+        constructor() {
+            this.model = null;
+            this.container = null;
+        }
+
+        init(model, container) {
+            this.model = model;
+            this.container = container;
+            let stopButton = document.createElement('button');
+            stopButton.className = 'stop btn';
+            stopButton.textContent = 'стоп';
+            let startButton = document.createElement('button');
+            startButton.className = 'start btn';
+            startButton.textContent = 'старт';
+
+            this.container.appendChild(startButton);
+            this.container.appendChild(stopButton);
+            let GMT = this.model.GMT;
+            this.container.innerHTML += `${this.model.city} (GMT${GMT > 0 ? '+' : ''}${GMT != 0 ? GMT : ''})`;
+            this.container.innerHTML += `<div class='clock'></div>`
+        }
+
+        update() {
+            let now = this.model.getCurrentTime().toLocaleTimeString();
+            let clock = this.container.querySelector('.clock');
+            clock.innerHTML = now;
+        }
+    }
+
+    class ClockController {
+        constructor() {
+            this.model = null;
+            this.container = null;
+            this.start = () => this.model.start();
+            this.stop = () => this.model.stop();
+        }
+
+        init(model, container) {
+            this.model = model;
+            this.container = container;
+            this.model.start();
+            let startButton = this.container.querySelector('.start');
+            startButton.addEventListener('click', this.start);
+
+            let stopButton = this.container.querySelector('.stop');
+            stopButton.addEventListener('click', this.stop);
+        }
+
+        start() {
+            this.model.start();
+        }
+
+        stop() {
+            this.model.stop();
+        }
+
+
+    }
+
+    let clock1 = new Clock('Нью-Йорк', -5);
+    let view1 = new ClockView();
+    let controller1 = new ClockController();
+    let container1 = document.getElementById('clock1');
+    clock1.init(view1);
+    view1.init(clock1, container1);
+    controller1.init(clock1, container1);
+    clock1.creatClock()
+    let clock2 = new Clock('Лондон', 0);
+    let view2 = new ClockView();
+    let controller2 = new ClockController();
+    let container2 = document.getElementById('clock2');
+    clock2.init(view2);
+    view2.init(clock2, container2);
+    controller2.init(clock2, container2);
+
+    let clock3 = new Clock('Берлин', 1);
+    let view3 = new ClockView();
+    let controller3 = new ClockController();
+    let container3 = document.getElementById('clock3');
+    clock3.init(view3);
+    view3.init(clock3, container3);
+    controller3.init(clock3, container3);
+
+    let clock4 = new Clock('Минск', 3);
+    let view4 = new ClockView();
+    let controller4 = new ClockController();
+    let container4 = document.getElementById('clock4');
+    clock4.init(view4);
+    view4.init(clock4, container4);
+    controller4.init(clock4, container4);
+
+    let clock5 = new Clock('Токио', 9);
+    let view5 = new ClockView();
+    let controller5 = new ClockController();
+    let container5 = document.getElementById('clock5');
+    clock5.init(view5);
+    view5.init(clock5, container5);
+    controller5.init(clock5, container5);
+
+    let clock6 = new Clock('Владивосток', 10);
+    let view6 = new ClockView();
+    let controller6 = new ClockController();
+    let container6 = document.getElementById('clock6');
+    clock6.init(view6);
+    view6.init(clock6, container6);
+    controller6.init(clock6, container6);
+</script>
+</body>
+</html>
