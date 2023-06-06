@@ -41,14 +41,20 @@ body {
     user-select: none;
 }
 
-
-
 .wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
+.go {
+    position: fixed;
+    right:  10vmin;
+    flex-direction: column;
+    justify-content: right;
+    align-items: flex-end; /* Добавляем выравнивание по правому краю */
+    margin-right: 2vmin; /* Опционально: добавляем отступ справа для выравнивания */
+}
 .grid {
     display: grid;
     grid-template-columns: repeat(9, auto);
@@ -145,4 +151,26 @@ body {
     50% {
         transform: scale(1.2) rotate(-30deg);
     }
+}
+
+/* Стили для таблицы лидеров */
+.leaderboard {
+    margin-top: 2vmin;
+    width: 300px;
+}
+
+.leaderboard th,
+.leaderboard td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.leaderboard th {
+    background-color: var(--bg-cell);
+    color: var(--text-color);
+}
+
+.leaderboard td {
+    background-color: var(--filled-bg);
+    color: var(--text-color);
 }

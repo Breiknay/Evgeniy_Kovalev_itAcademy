@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #666666;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .form-group.invalid input[type="text"] {
+            border-color: #ff0000;
+        }
+
+        .form-group.invalid .error-message {
+            color: #ff0000;
+            display: block;
+        }
+
+        .error-message {
+            color: #ff0000;
+            display: none;
+        }
+    </style>
+    <script>
+        // Проверка валидности поля имени при отправке формы
+        function validateForm(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById("name");
+            const errorMessage = document.getElementById("name-error");
+
+            if (nameInput.value.trim() === "") {
+                nameInput.classList.add("invalid");
+                errorMessage.style.display = "block";
+            } else {
+                nameInput.classList.remove("invalid");
+                errorMessage.style.display = "none";
+
+                const difficulty = document.getElementById("difficulty").value;
+                const url = "main.html?name=" + encodeURIComponent(nameInput.value) + "&difficulty=" + encodeURIComponent(difficulty);
+                window.location.href = url;
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Начать игру</h2>
+    <form onsubmit="validateForm(event)">
+        <div class="form-group">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" placeholder="Введите ваше имя">
+            <span id="name-error" class="error-message">Пожалуйста, введите имя.</span>
+        </div>
+        <div class="form-group">
+            <label for="difficulty">Сложность уровня:</label>
+            <select id="difficulty" name="difficulty">
+                <option value="easy">Легко</option>
+                <option value="medium">Средне</option>
+                <option value="hard">Сложно</option>
+            </select>
+        </div>
+        <button type="submit">Начать игру</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,15 +1,17 @@
 import {GRID_SIZE, BOX_SIZE} from "./Utilits/utitlits.js";
 
-export function generationSudoku() {
+export function generationSudoku(difficulty) {
     const sudoku = creatEmptyGrid();
     resolveSudoku(sudoku)
-    return removeCells(sudoku)
+    return removeCells(sudoku, difficulty)
 }
+
 //создание пустого поля 9x9
 function creatEmptyGrid() {
     return new Array(GRID_SIZE).fill().map(() =>
         new Array(GRID_SIZE).fill(null))
 }
+
 //заполняем все ячееки при старте
 function resolveSudoku(grid) {
     const emptyCell = findEmptyCell(grid);
@@ -27,6 +29,7 @@ function resolveSudoku(grid) {
         grid[emptyCell.row][emptyCell.column] = null;
     }
 }
+
 //поиск пустых ячеек
 export function findEmptyCell(grid) {
     for (let row = 0; row < GRID_SIZE; row++) {
@@ -37,6 +40,7 @@ export function findEmptyCell(grid) {
     //возвращаем null если нет пустых ячеек
     return null;
 }
+
 //перемешиваем числа в массиве для рандомной генерации
 function getRandomNumbers() {
     const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -48,12 +52,14 @@ function getRandomNumbers() {
 
     return numbers;
 }
+
 //проверка строк и столбиков
 function validate(grid, row, column, value) {
     return validateColumn(grid, row, column, value)
         && validateRow(grid, row, column, value)
         && validateBox(grid, row, column, value);
 }
+
 //проверка ячеек в столбце
 function validateColumn(grid, row, column, value) {
     for (let iRow = 0; iRow < GRID_SIZE; iRow++) {
@@ -61,6 +67,7 @@ function validateColumn(grid, row, column, value) {
     }
     return true;
 }
+
 //проверка ячеек в столбце
 function validateRow(grid, row, column, value) {
     for (let iColumn = 0; iColumn < GRID_SIZE; iColumn++) {
@@ -68,6 +75,7 @@ function validateRow(grid, row, column, value) {
     }
     return true;
 }
+
 //проверка ячеек в квадрате
 function validateBox(grid, row, column, value) {
     const firstRowInBox = row - row % BOX_SIZE;
@@ -80,8 +88,9 @@ function validateBox(grid, row, column, value) {
     }
     return true;
 }
+
 //удаляем ячееки с выбором сложности DIFFICULTY( удаляем количество ячеек)
-function removeCells(grid) {
+function removeCells(grid, difficulty) {
     const DIFFICULTY = 1;
     const resultGrid = [...grid].map(row => [...row]);
 

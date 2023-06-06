@@ -1,8 +1,12 @@
 import {Sudoku} from "./sudoku.js";
 import {GRID_SIZE, BOX_SIZE, convertIndexToPosition, convertPositionToIndex} from "./Utilits/utitlits.js";
 import {MAIN_AUDIO, PENCIL_AUDIO, ERROR_AUDIO, WIN_AUDIO} from "./Utilits/audio.js"
+import {getInfoForGame} from "./Utilits/getInfo.js"
 
-const sudoku = new Sudoku();
+let showLeaderboard = false;
+toggleLeaderboard()
+const infoPlayer = getInfoForGame(MAIN_AUDIO)
+const sudoku = new Sudoku(infoPlayer.DIFFICULTY);
 
 
 let cells;
@@ -12,7 +16,6 @@ let selectedCell;
 init();
 
 function init() {
-    MAIN_AUDIO.play()
     initCells();
     initNumbers();
     initRemover();
@@ -43,7 +46,6 @@ function initCellsEvent() {
 }
 
 function onCellClick(clickedCell, index) {
-
     cells.forEach(cell => cell.classList.remove('highlighted', 'selected', 'error'));
 // если поле заполнено, то ничего не делаем, если наоборот, то выделяем
     if (clickedCell.classList.contains('filled')) {
@@ -177,4 +179,16 @@ function winAnimation() {
         setTimeout(() => cells.forEach(cell => cell.classList.toggle('highlighted')), 500 + cells.length * 15 + 300 * i);
     }
     initCells()
+    showLeaderboard = true
+    toggleLeaderboard()
+}
+
+function toggleLeaderboard() {
+    var leaderboard = document.getElementById("leaderboard");
+
+    if (showLeaderboard) {
+        leaderboard.style.display = "table";
+    } else {
+        leaderboard.style.display = "none";
+    }
 }

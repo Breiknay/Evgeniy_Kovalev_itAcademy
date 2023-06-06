@@ -2,8 +2,8 @@ import { GRID_SIZE, BOX_SIZE } from "./Utilits/utitlits.js";
 import { generationSudoku, findEmptyCell } from "./genetationSudoku.js";
 
 export class Sudoku {
-    constructor() {
-        this.grid = generationSudoku(); //сетка судоку
+    constructor(difficulty) {
+        this.grid = generationSudoku(difficulty); //сетка судоку
     }
 //кордианаты всех дублирующих значений
     getDuplicatePositions(row, column, value) {
