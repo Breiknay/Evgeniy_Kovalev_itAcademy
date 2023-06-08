@@ -47,13 +47,14 @@ body {
     justify-content: center;
 }
 
-.go {
+.tableDivMaterial {
     position: fixed;
     right:  10vmin;
     flex-direction: column;
     justify-content: right;
-    align-items: flex-end; /* Добавляем выравнивание по правому краю */
-    margin-right: 2vmin; /* Опционально: добавляем отступ справа для выравнивания */
+    align-items: flex-end;
+    margin-right: 2vmin;
+    text-align: center;
 }
 .grid {
     display: grid;

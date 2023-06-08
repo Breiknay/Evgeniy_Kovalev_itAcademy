@@ -1,9 +1,10 @@
+"use strict";
 import {Sudoku} from "./sudoku.js";
 import {GRID_SIZE, BOX_SIZE, convertIndexToPosition, convertPositionToIndex} from "./Utilits/utitlits.js";
 import {MAIN_AUDIO, PENCIL_AUDIO, ERROR_AUDIO, WIN_AUDIO} from "./Utilits/audio.js"
-import {getInfoForGame} from "./Utilits/getInfo.js"
+import {getInfoForGame, storeInfo, TABLE_LIDERS} from "./Utilits/getInfo.js"
 
-let showLeaderboard = false;
+let showLeaderboard = true;
 toggleLeaderboard()
 const infoPlayer = getInfoForGame(MAIN_AUDIO)
 const sudoku = new Sudoku(infoPlayer.DIFFICULTY);
@@ -178,17 +179,67 @@ function winAnimation() {
     for (let i = 1; i < 8; i++) {
         setTimeout(() => cells.forEach(cell => cell.classList.toggle('highlighted')), 500 + cells.length * 15 + 300 * i);
     }
+    storeInfo()
     initCells()
     showLeaderboard = true
-    toggleLeaderboard()
+    // toggleLeaderboard()
 }
 
 function toggleLeaderboard() {
     var leaderboard = document.getElementById("leaderboard");
+    var tableDiv = document.querySelector('.tableDivMaterial');
 
-    if (showLeaderboard) {
-        leaderboard.style.display = "table";
-    } else {
-        leaderboard.style.display = "none";
+// Создание таблицы
+    var table = document.createElement('table');
+    table.classList.add('leaderboard');
+
+// Создание заголовка таблицы
+    var thead = document.createElement('thead');
+    var trHead = document.createElement('tr');
+
+    var thName = document.createElement('th');
+    thName.textContent = 'Имя';
+    trHead.appendChild(thName);
+
+    var thDifficulty = document.createElement('th');
+    thDifficulty.textContent = 'Сложность';
+    trHead.appendChild(thDifficulty);
+
+    thead.appendChild(trHead);
+    table.appendChild(thead);
+
+// Создание тела таблицы
+    var tbody = document.createElement('tbody');
+    for (var i = 0; i < TABLE_LIDERS.length; i++) {
+        var object = TABLE_LIDERS[i];
+        var tr = document.createElement('tr');
+
+        var tdName = document.createElement('td');
+        tdName.textContent = object.player_name;
+        tr.appendChild(tdName);
+
+        var tdDifficulty = document.createElement('td');
+        tdDifficulty.textContent = object.difficulty;
+        tr.appendChild(tdDifficulty);
+
+        tbody.appendChild(tr);
     }
+
+    table.appendChild(tbody);
+
+// Вставка таблицы в элемент <div>
+    tableDiv.appendChild(table);
+    // if (showLeaderboard) {
+    //     leaderboard.style.display = "table";
+    // } else {
+    //     leaderboard.style.display = "none";
+    // }
+
+}
+
+window.onbeforeunload = befUnload;
+
+function befUnload(EO) {
+    EO = EO || window.event;
+    EO.returnValue = 'При попытке выхода из игры, данные будут утеряны';
 }
