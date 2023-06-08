@@ -5,10 +5,9 @@ import {MAIN_AUDIO, PENCIL_AUDIO, ERROR_AUDIO, WIN_AUDIO} from "./Utilits/audio.
 import {getInfoForGame, storeInfo, TABLE_LIDERS} from "./Utilits/getInfo.js"
 
 let showLeaderboard = true;
-toggleLeaderboard()
 const infoPlayer = getInfoForGame(MAIN_AUDIO)
 const sudoku = new Sudoku(infoPlayer.DIFFICULTY);
-
+toggleLeaderboard()
 
 let cells;
 let selectedCellIndex;
@@ -170,7 +169,7 @@ function initKeyEvent() {
     });
 }
 
-function winAnimation() {
+async function winAnimation() {
 
     cells.forEach(cell => cell.classList.remove('highlighted', 'selected', 'zoom'));
     cells.forEach((cell, i) => {
@@ -179,65 +178,75 @@ function winAnimation() {
     for (let i = 1; i < 8; i++) {
         setTimeout(() => cells.forEach(cell => cell.classList.toggle('highlighted')), 500 + cells.length * 15 + 300 * i);
     }
-    storeInfo()
+    await storeInfo()
     initCells()
     showLeaderboard = true
-    // toggleLeaderboard()
+    toggleLeaderboard()
 }
 
 function toggleLeaderboard() {
-    var leaderboard = document.getElementById("leaderboard");
-    var tableDiv = document.querySelector('.tableDivMaterial');
+    if (showLeaderboard) {
+        var tableDiv = document.createElement('div');
+        tableDiv.classList.add('tableDivMaterial');
 
-// Создание таблицы
-    var table = document.createElement('table');
-    table.classList.add('leaderboard');
+        var table = document.createElement('table');
+        table.classList.add('leaderboard');
 
-// Создание заголовка таблицы
-    var thead = document.createElement('thead');
-    var trHead = document.createElement('tr');
+        var thead = document.createElement('thead');
+        var trHead = document.createElement('tr');
 
-    var thName = document.createElement('th');
-    thName.textContent = 'Имя';
-    trHead.appendChild(thName);
+        var thName = document.createElement('th');
+        thName.textContent = 'Имя';
+        thName.style.textAlign = 'center';
+        trHead.appendChild(thName);
 
-    var thDifficulty = document.createElement('th');
-    thDifficulty.textContent = 'Сложность';
-    trHead.appendChild(thDifficulty);
+        var thDifficulty = document.createElement('th');
+        thDifficulty.textContent = 'Сложность';
+        thDifficulty.style.textAlign = 'center';
+        trHead.appendChild(thDifficulty);
 
-    thead.appendChild(trHead);
-    table.appendChild(thead);
+        thead.appendChild(trHead);
+        table.appendChild(thead);
 
-// Создание тела таблицы
-    var tbody = document.createElement('tbody');
-    for (var i = 0; i < TABLE_LIDERS.length; i++) {
-        var object = TABLE_LIDERS[i];
-        var tr = document.createElement('tr');
+        var tbody = document.createElement('tbody');
+        for (var i = 0; i < TABLE_LIDERS.length; i++) {
+            var object = TABLE_LIDERS[i];
+            var tr = document.createElement('tr');
 
-        var tdName = document.createElement('td');
-        tdName.textContent = object.player_name;
-        tr.appendChild(tdName);
+            var tdName = document.createElement('td');
+            tdName.textContent = object.player_name;
+            tdName.style.textAlign = 'left';
+            tr.appendChild(tdName);
 
-        var tdDifficulty = document.createElement('td');
-        tdDifficulty.textContent = object.difficulty;
-        tr.appendChild(tdDifficulty);
+            var tdDifficulty = document.createElement('td');
+            tdDifficulty.textContent = object.difficulty;
+            tdDifficulty.style.textAlign = 'center';
+            tr.appendChild(tdDifficulty);
 
-        tbody.appendChild(tr);
+            tbody.appendChild(tr);
+        }
+
+        table.appendChild(tbody);
+
+        tableDiv.appendChild(table);
+
+        var restartButton = document.createElement('button');
+        restartButton.textContent = 'Начать заново';
+        restartButton.classList.add('restart-button');
+        restartButton.addEventListener('click', function () {
+            window.location.href = 'form.html';
+        });
+
+        tableDiv.appendChild(restartButton);
+
+        document.body.appendChild(tableDiv);
     }
-
-    table.appendChild(tbody);
-
-// Вставка таблицы в элемент <div>
-    tableDiv.appendChild(table);
-    // if (showLeaderboard) {
-    //     leaderboard.style.display = "table";
-    // } else {
-    //     leaderboard.style.display = "none";
-    // }
-
 }
 
-window.onbeforeunload = befUnload;
+if (!showLeaderboard) {
+    window.onbeforeunload = befUnload;
+}
+
 
 function befUnload(EO) {
     EO = EO || window.event;

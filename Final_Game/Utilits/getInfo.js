@@ -10,7 +10,6 @@ let updatePassword;
 const stringName = 'KOVALEV_TABLE_LEADERS';
 export let TABLE_LIDERS = []
 await restoreInfo()
-// storeInfo()
 
 let difficulty
 
@@ -43,57 +42,59 @@ export async function getInfoForGame(MAIN_AUDIO) {
 }
 
 
-let messages; // элемент массива - {name:'Иванов',mess:'Привет'};
-
-//
-//
 export function storeInfo() {
-    updatePassword = Math.random();
-    $.ajax({
-            url: ajaxHandlerScript, type: 'POST', cache: false, dataType: 'json',
+    return new Promise((resolve, reject) => {
+        updatePassword = Math.random();
+        $.ajax({
+            url: ajaxHandlerScript,
+            type: 'POST',
+            cache: false,
+            dataType: 'json',
             data: {f: 'LOCKGET', n: stringName, p: updatePassword},
-            success: lockGetReady, error: errorHandler
-        }
-    );
+            success: (callresult) => lockGetReady(callresult)
+                .then((messages) => {
+                    $.ajax({
+                        url: ajaxHandlerScript,
+                        type: 'POST',
+                        cache: false,
+                        dataType: 'json',
+                        data: {
+                            f: 'UPDATE',
+                            n: stringName,
+                            v: JSON.stringify(messages),
+                            p: updatePassword
+                        },
+                        success: (result) => resolve(result),
+                        error: (error) => reject(error)
+                    });
+                })
+                .catch((error) => reject(error)),
+            error: (error) => reject(error)
+        });
+    });
 }
 
-//
-function lockGetReady(callresult) {
-    if (callresult.error !== undefined)
-        alert(callresult.error);
-
-    else {
-        messages = [
-            {
+async function lockGetReady(callresult) {
+    return new Promise((resolve, reject) => {
+        if (callresult.error !== undefined) {
+            alert(callresult.error);
+            reject(callresult.error);
+        } else {
+            let final = {
                 player_name: PLAYER_NAME,
                 difficulty: difficulty,
-            }
-        ]
+            };
+            let messages = [final];
+            TABLE_LIDERS.forEach(function (obj) {
+                messages.push(obj);
+            });
+            TABLE_LIDERS.push(final);
 
-        TABLE_LIDERS.forEach(function (obj) {
-            console.log(obj)
-            messages.push(obj);
-        });
+            resolve(messages)
 
-        $.ajax({
-                url: ajaxHandlerScript, type: 'POST', cache: false, dataType: 'json',
-                data: {
-                    f: 'UPDATE', n: stringName,
-                    v: JSON.stringify(messages), p: updatePassword
-                },
-                success: updateReady, error: errorHandler
-            }
-        );
-    }
+        }
+    });
 }
-
-//
-function updateReady(callresult) {
-    if (callresult.error != undefined)
-        alert(callresult.error);
-}
-
-//
 
 
 export function restoreInfo() {
@@ -113,12 +114,8 @@ export function restoreInfo() {
                                 player_name: obj['player_name'],
                                 difficulty: obj['difficulty'],
                             }
-
-
                         }
                         TABLE_LIDERS.push(info)
-                        console.log(TABLE_LIDERS)
-                        console.log("dog")
                     });
 
                     resolve(TABLE_LIDERS)
@@ -142,7 +139,3 @@ export function readReady(callresult) {
     });
 }
 
-//
-function errorHandler(jqXHR, statusStr, errorStr) {
-    alert(statusStr + ' ' + errorStr);
-}
