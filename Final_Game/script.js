@@ -4,10 +4,10 @@ import {GRID_SIZE, BOX_SIZE, convertIndexToPosition, convertPositionToIndex} fro
 import {MAIN_AUDIO, PENCIL_AUDIO, ERROR_AUDIO, WIN_AUDIO} from "./Utilits/audio.js"
 import {getInfoForGame, storeInfo, TABLE_LIDERS} from "./Utilits/getInfo.js"
 
-let showLeaderboard = true;
-const infoPlayer = getInfoForGame(MAIN_AUDIO)
+let showLeaderboard = false;
+const infoPlayer = await getInfoForGame(MAIN_AUDIO)
 const sudoku = new Sudoku(infoPlayer.DIFFICULTY);
-toggleLeaderboard()
+// toggleLeaderboard()
 
 let cells;
 let selectedCellIndex;

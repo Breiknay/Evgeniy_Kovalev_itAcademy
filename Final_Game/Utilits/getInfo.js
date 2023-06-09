@@ -14,31 +14,40 @@ await restoreInfo()
 let difficulty
 
 
-export async function getInfoForGame(MAIN_AUDIO) {
-    MAIN_AUDIO.play()
+export function getInfoForGame(MAIN_AUDIO) {
+    return new Promise((resolve, reject) => {
+        MAIN_AUDIO.play();
 
-    PLAYER_NAME = urlParams.get('name');
-    difficulty = urlParams.get('difficulty');
+        const PLAYER_NAME = urlParams.get('name');
+        const difficulty = urlParams.get('difficulty');
+        let DIFFICULTY;
 
-    switch (difficulty) {
-        case "easy":
-            // Действия для уровня "Легко"
-            DIFFICULTY = 10
-            break;
-        case "medium":
-            // Действия для уровня "Средне"
-            DIFFICULTY = 20
-            break;
-        case "hard":
-            // Действия для уровня "Сложно"
-            DIFFICULTY = 30
-            break;
-        default:
-            break;
-    }
-    return {
-        PLAYER_NAME, DIFFICULTY
-    }
+        switch (difficulty) {
+            case "easy":
+                // Действия для уровня "Легко"
+                DIFFICULTY = 10;
+                break;
+            case "medium":
+                // Действия для уровня "Средне"
+                DIFFICULTY = 20;
+                break;
+            case "hard":
+                // Действия для уровня "Сложно"
+                DIFFICULTY = 30;
+                break;
+            default:
+                break;
+        }
+
+        if (PLAYER_NAME && DIFFICULTY) {
+            resolve({
+                PLAYER_NAME,
+                DIFFICULTY
+            });
+        } else {
+            reject(new Error('Не удалось получить информацию для игры.'));
+        }
+    });
 }
 
 
