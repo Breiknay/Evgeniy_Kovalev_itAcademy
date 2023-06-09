@@ -86,6 +86,7 @@
             if (nameInput.value.trim() === "") {
                 nameInput.classList.add("invalid");
                 errorMessage.style.display = "block";
+                nameInput.focus()
             } else {
                 nameInput.classList.remove("invalid");
                 errorMessage.style.display = "none";

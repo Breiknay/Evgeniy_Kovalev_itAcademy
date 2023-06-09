@@ -5,14 +5,15 @@ import {MAIN_AUDIO, PENCIL_AUDIO, ERROR_AUDIO, WIN_AUDIO} from "./Utilits/audio.
 import {getInfoForGame, storeInfo, TABLE_LIDERS} from "./Utilits/getInfo.js"
 
 let showLeaderboard = false;
-const infoPlayer = await getInfoForGame(MAIN_AUDIO)
+const infoPlayer = await getInfoForGame()
 const sudoku = new Sudoku(infoPlayer.DIFFICULTY);
 // toggleLeaderboard()
 
 let cells;
 let selectedCellIndex;
 let selectedCell;
-
+const numbers = document.querySelectorAll('.number');
+const remover = document.querySelector('.remove');
 init();
 
 function init() {
@@ -101,7 +102,7 @@ function highlightBoxBy(index) {
 }
 
 function initNumbers() {
-    const numbers = document.querySelectorAll('.number');
+
     numbers.forEach((number) => {
         number.addEventListener('click', () => onNumberClick(parseInt(number.innerHTML)))
     });
@@ -144,7 +145,6 @@ function highlightDuplicates(duplicatesPositions) {
 }
 
 function initRemover() {
-    const remover = document.querySelector('.remove');
     remover.addEventListener('click', () => onRemoveClick());
 }
 
@@ -170,7 +170,9 @@ function initKeyEvent() {
 }
 
 async function winAnimation() {
-
+    window.onbeforeunload = null;
+    remover.removeEventListener('click', onRemoveClick);
+    document.removeEventListener('keydown', initKeyEvent);
     cells.forEach(cell => cell.classList.remove('highlighted', 'selected', 'zoom'));
     cells.forEach((cell, i) => {
         setTimeout(() => cell.classList.add('highlighted', 'zoom'), i * 15);
@@ -178,29 +180,32 @@ async function winAnimation() {
     for (let i = 1; i < 8; i++) {
         setTimeout(() => cells.forEach(cell => cell.classList.toggle('highlighted')), 500 + cells.length * 15 + 300 * i);
     }
-    await storeInfo()
+
     initCells()
     showLeaderboard = true
+    await storeInfo()
     toggleLeaderboard()
 }
 
 function toggleLeaderboard() {
     if (showLeaderboard) {
-        var tableDiv = document.createElement('div');
+        let tableDiv = document.createElement('div');
         tableDiv.classList.add('tableDivMaterial');
-
-        var table = document.createElement('table');
+        tableDiv.style.zIndex = "9999";
+        tableDiv.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        tableDiv.style.position = "fixed"
+        let table = document.createElement('table');
         table.classList.add('leaderboard');
 
-        var thead = document.createElement('thead');
-        var trHead = document.createElement('tr');
+        let thead = document.createElement('thead');
+        let trHead = document.createElement('tr');
 
-        var thName = document.createElement('th');
+        let thName = document.createElement('th');
         thName.textContent = 'Имя';
         thName.style.textAlign = 'center';
         trHead.appendChild(thName);
 
-        var thDifficulty = document.createElement('th');
+        let thDifficulty = document.createElement('th');
         thDifficulty.textContent = 'Сложность';
         thDifficulty.style.textAlign = 'center';
         trHead.appendChild(thDifficulty);
@@ -208,17 +213,17 @@ function toggleLeaderboard() {
         thead.appendChild(trHead);
         table.appendChild(thead);
 
-        var tbody = document.createElement('tbody');
-        for (var i = 0; i < TABLE_LIDERS.length; i++) {
-            var object = TABLE_LIDERS[i];
-            var tr = document.createElement('tr');
+        let tbody = document.createElement('tbody');
+        for (let i = 0; i < TABLE_LIDERS.length; i++) {
+            let object = TABLE_LIDERS[i];
+            let tr = document.createElement('tr');
 
-            var tdName = document.createElement('td');
+            let tdName = document.createElement('td');
             tdName.textContent = object.player_name;
             tdName.style.textAlign = 'left';
             tr.appendChild(tdName);
 
-            var tdDifficulty = document.createElement('td');
+            let tdDifficulty = document.createElement('td');
             tdDifficulty.textContent = object.difficulty;
             tdDifficulty.style.textAlign = 'center';
             tr.appendChild(tdDifficulty);
@@ -230,7 +235,7 @@ function toggleLeaderboard() {
 
         tableDiv.appendChild(table);
 
-        var restartButton = document.createElement('button');
+        let restartButton = document.createElement('button');
         restartButton.textContent = 'Начать заново';
         restartButton.classList.add('restart-button');
         restartButton.addEventListener('click', function () {
@@ -243,9 +248,7 @@ function toggleLeaderboard() {
     }
 }
 
-if (!showLeaderboard) {
-    window.onbeforeunload = befUnload;
-}
+window.onbeforeunload = befUnload;
 
 
 function befUnload(EO) {

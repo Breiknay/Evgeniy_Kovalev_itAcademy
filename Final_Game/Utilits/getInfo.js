@@ -10,30 +10,27 @@ let updatePassword;
 const stringName = 'KOVALEV_TABLE_LEADERS';
 export let TABLE_LIDERS = []
 await restoreInfo()
+PLAYER_NAME = urlParams.get('name');
+let difficulty = urlParams.get('difficulty');
 
-let difficulty
 
-
-export function getInfoForGame(MAIN_AUDIO) {
+// await storeInfo()
+export function getInfoForGame() {
     return new Promise((resolve, reject) => {
-        MAIN_AUDIO.play();
 
-        const PLAYER_NAME = urlParams.get('name');
-        const difficulty = urlParams.get('difficulty');
-        let DIFFICULTY;
 
         switch (difficulty) {
             case "easy":
-                // Действия для уровня "Легко"
-                DIFFICULTY = 10;
+                difficulty = "Легкая"
+                DIFFICULTY = 30;
                 break;
             case "medium":
-                // Действия для уровня "Средне"
-                DIFFICULTY = 20;
+                difficulty = "Средняя"
+                DIFFICULTY = 40;
                 break;
             case "hard":
-                // Действия для уровня "Сложно"
-                DIFFICULTY = 30;
+                difficulty = "Сложная"
+                DIFFICULTY = 50;
                 break;
             default:
                 break;
@@ -100,7 +97,6 @@ async function lockGetReady(callresult) {
             TABLE_LIDERS.push(final);
 
             resolve(messages)
-
         }
     });
 }
