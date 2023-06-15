@@ -1,41 +1,35 @@
-import {MAIN_AUDIO} from "./audio.js";
+import {DIFFICULTY_STRING, NAME, startGame} from "../modal-dialog-for-start.js";
 
-const urlParams = new URLSearchParams(window.location.search);
+await startGame()
 
-
-export let PLAYER_NAME = "";
+export var PLAYER_NAME = "";
 export let DIFFICULTY = 0;
+
 const ajaxHandlerScript = "https://fe.it-academy.by/AjaxStringStorage2.php";
 let updatePassword;
 const stringName = 'KOVALEV_TABLE_LEADERS';
 export let TABLE_LIDERS = []
 await restoreInfo()
-PLAYER_NAME = urlParams.get('name');
-let difficulty = urlParams.get('difficulty');
 
 
 // await storeInfo()
 export function getInfoForGame() {
     return new Promise((resolve, reject) => {
-
-
-        switch (difficulty) {
-            case "easy":
-                difficulty = "Легкая"
+        switch (DIFFICULTY_STRING) {
+            case "Легко":
                 DIFFICULTY = 30;
                 break;
-            case "medium":
-                difficulty = "Средняя"
+            case "Средне":
                 DIFFICULTY = 40;
                 break;
-            case "hard":
-                difficulty = "Сложная"
+            case "Сложно":
                 DIFFICULTY = 50;
                 break;
             default:
                 break;
         }
 
+        if (NAME) PLAYER_NAME = NAME
         if (PLAYER_NAME && DIFFICULTY) {
             resolve({
                 PLAYER_NAME,
@@ -88,7 +82,7 @@ async function lockGetReady(callresult) {
         } else {
             let final = {
                 player_name: PLAYER_NAME,
-                difficulty: difficulty,
+                difficulty: DIFFICULTY_STRING,
             };
             let messages = [final];
             TABLE_LIDERS.forEach(function (obj) {

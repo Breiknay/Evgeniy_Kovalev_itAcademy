@@ -56,7 +56,6 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
 }
 
 .leaderboard {
@@ -100,6 +99,59 @@ body {
 
 .restart-button:hover {
     background-color: #45a049;
+}
+
+.tableDivMaterialForDialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.inputField {
+    border: 1px solid #cccccc;
+    border-radius: 20px;
+    font-size: 14px;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+.selectField {
+    padding: 10px;
+    border-radius: 20px;
+    max-width: 600px;
+    border: 1px solid #cccccc;
+    margin-bottom: 5px;
+}
+
+.continueButton {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.continueButton:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: #ff0000;
+    display: none;
 }
 
 .grid {

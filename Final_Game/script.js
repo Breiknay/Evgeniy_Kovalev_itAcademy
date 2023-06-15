@@ -239,7 +239,7 @@ function toggleLeaderboard() {
         restartButton.textContent = 'Начать заново';
         restartButton.classList.add('restart-button');
         restartButton.addEventListener('click', function () {
-            window.location.href = 'form.html';
+            location.reload();
         });
 
         tableDiv.appendChild(restartButton);

@@ -6,6 +6,4 @@ export const WIN_AUDIO = new Audio('Audio/Win.mp3')
 MAIN_AUDIO.addEventListener('ended', () => {
     MAIN_AUDIO.currentTime = 0;
     MAIN_AUDIO.play();
-
 });
-MAIN_AUDIO.play();
